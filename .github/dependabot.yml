@@ -1,0 +1,50 @@
+# Dependabot configuration for AI Resume Screening & Ranking Platform
+# Documentation: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # 1. Root Python Dependencies (requirements.txt & requirements-dev.txt)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "security"
+      - "python"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+
+  # 2. Lean Submission Package Dependencies (submission/requirements.txt)
+  - package-ecosystem: "pip"
+    directory: "/submission"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "submission"
+      - "python"
+
+  # 3. GitHub Actions Workflows (.github/workflows)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "ci"
+      - "github-actions"
+
+  # 4. Container Images (Dockerfile)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "docker"
+      - "infrastructure"
