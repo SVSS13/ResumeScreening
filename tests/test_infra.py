@@ -133,7 +133,7 @@ def test_api_screen_and_results(tmp_path):
     (tmp_path / "a.txt").write_text(DEEP)
     c = TestClient(app)
     assert c.get("/results").status_code == 404
-    r = c.post("/screen", json={"input_dir": str(tmp_path), "use_github": False})
+    r = c.post("/screen", json={"input_dir": str(tmp_path), "use_github": False, "sync": True})
     assert r.status_code == 200 and r.json()["eligible"] == 1
     assert c.get("/results").json()["ranked_candidates"][0]["rank"] == 1
     assert c.post("/screen", json={"input_dir": "/nope"}).status_code == 404
