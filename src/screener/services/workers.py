@@ -61,6 +61,14 @@ class WorkerRuntime:
         self._thread_pool = ThreadPoolExecutor(max_workers=self.num_io_threads)
         self._outbound_limiter = OutboundLimiter(max_concurrency=5, rate_per_s=2.0)
 
+    def _ensure_pools(self) -> None:
+        if self._process_pool is None or getattr(self._process_pool, "_shutdown_thread", False) or getattr(self._process_pool, "_broken", False):
+            import multiprocessing
+            mp_ctx = multiprocessing.get_context("fork") if "fork" in multiprocessing.get_all_start_methods() else None
+            self._process_pool = ProcessPoolExecutor(max_workers=self.num_cpu_workers, mp_context=mp_ctx)
+        if self._thread_pool is None or getattr(self._thread_pool, "_shutdown", False):
+            self._thread_pool = ThreadPoolExecutor(max_workers=self.num_io_threads)
+
     def shutdown(self, wait: bool = True) -> None:
         self._process_pool.shutdown(wait=wait)
         self._thread_pool.shutdown(wait=wait)
@@ -73,6 +81,7 @@ class WorkerRuntime:
         on_progress: Any = None,
     ) -> dict:
         """Fully asynchronous pipeline execution without nested asyncio.run()."""
+        self._ensure_pools()
         t0 = time.perf_counter()
         paths = discover(input_dir)
         total_files = len(paths)

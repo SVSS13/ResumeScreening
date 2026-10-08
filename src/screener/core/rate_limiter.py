@@ -18,6 +18,7 @@ import dataclasses as dc
 import math
 import random
 import threading
+import time
 from typing import Mapping
 
 from .clock import Clock, wall_clock
@@ -269,11 +270,13 @@ class OutboundLimiter:
 
         if status_code in (429, 403) and remaining == "0" and reset_ts_raw:
             try:
-                # Unix timestamp reset
+                # Unix timestamp reset (epoch seconds or mock clock)
                 reset_ts = float(reset_ts_raw)
-                # Apply full jitter backoff if reset is in the past or unknown
+                base_time = time.time() if reset_ts > 1_000_000_000 else now
+                delta_s = max(0.0, reset_ts - base_time)
+                pause_s = min(3600.0, delta_s + 0.5)  # add 0.5s safety buffer, cap at 1 hour
                 async with self._lock:
-                    self._paused_until = max(self._paused_until, now + 10.0)
+                    self._paused_until = max(self._paused_until, now + pause_s)
             except ValueError:
                 async with self._lock:
                     self._paused_until = max(self._paused_until, now + 5.0)

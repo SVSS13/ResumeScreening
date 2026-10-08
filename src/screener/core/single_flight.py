@@ -34,22 +34,20 @@ class SingleFlight(Generic[V]):
         with self._lock:
             if key in self._calls:
                 call = self._calls[key]
-                # Another thread is already loading this key; wait outside the lock
-                self._lock.release()
-                try:
-                    call.event.wait()
-                    if call.err is not None:
-                        raise call.err
-                    assert call.val is not None
-                    return call.val
-                finally:
-                    self._lock.acquire()
+                first = False
+            else:
+                call = _Call[V]()
+                self._calls[key] = call
+                first = True
 
-            # First caller: register new in-flight call
-            call = _Call[V]()
-            self._calls[key] = call
+        if not first:
+            call.event.wait()
+            if call.err is not None:
+                raise call.err
+            assert call.val is not None
+            return call.val
 
-        # Execute loader outside of the lock
+        # First caller: execute loader outside of any lock
         try:
             val = loader()
             call.val = val

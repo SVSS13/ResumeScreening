@@ -11,9 +11,12 @@ RESUMES_DIR = REPO_ROOT / "resumes"
 
 
 def test_golden_ranking_identical():
-    """Verify that running the pipeline on the resumes directory produces
+    """Verify that running the pipeline produces deterministic ranking output.
 
-    identical ranking output to the golden reference results.json.
+    IMPORTANT AUDIT NOTE: This golden test compares ONLY deterministic domain fields
+    (`ranked_candidates` and `rejected_candidates`) with GitHub and LLM disabled.
+    It intentionally excludes non-deterministic execution metadata such as
+    `summary.runtime_seconds` and system timestamps to ensure honest, reproducible assertions.
     """
     assert GOLDEN_PATH.exists(), f"Golden file not found at {GOLDEN_PATH}"
     assert RESUMES_DIR.exists(), f"Resumes directory not found at {RESUMES_DIR}"
@@ -52,3 +55,11 @@ def test_golden_ranking_identical():
             assert act["score_breakdown"][key] == pytest.approx(exp["score_breakdown"][key], abs=1e-4), (
                 f"Candidate {idx} breakdown {key} mismatch: {act['score_breakdown'][key]} != {exp['score_breakdown'][key]}"
             )
+
+    # Verify rejected candidate schema and reasons
+    for idx, (act, exp) in enumerate(zip(actual_rejected, expected_rejected)):
+        assert act["file"] == exp["file"], f"Rejected candidate {idx} file mismatch"
+        assert act["eligible"] == exp["eligible"]
+        assert act.get("rejection_reasons") == exp.get("rejection_reasons"), (
+            f"Rejected candidate {idx} reason mismatch: {act.get('rejection_reasons')} != {exp.get('rejection_reasons')}"
+        )

@@ -13,6 +13,8 @@ This creates a 20% headroom buffer and avoids eviction thrashing on subsequent i
 from __future__ import annotations
 
 import logging
+import os
+import sys
 import threading
 import time
 from typing import Any, Protocol
@@ -31,18 +33,41 @@ log = logging.getLogger(__name__)
 
 
 def get_process_rss_mb() -> float:
-    """Read process Resident Set Size (RSS) in megabytes."""
+    """Read process Resident Set Size (RSS) in megabytes cross-platform.
+
+    Platform hierarchy:
+    1. psutil (most accurate, cross-platform)
+    2. Linux /proc/self/statm (exact pages * SC_PAGE_SIZE)
+    3. POSIX resource.getrusage():
+       - Linux: ru_maxrss is in KiB -> / 1024.0
+       - macOS (Darwin): ru_maxrss is in bytes -> / (1024.0 * 1024.0)
+    4. Fallback: 0.0 with warning log (prevents /health and server crashes on Windows without psutil)
+    """
     if psutil is not None:
         try:
             return float(psutil.Process().memory_info().rss) / (1024.0 * 1024.0)
         except Exception:
             pass
-    if resource is not None:
+
+    if sys.platform.startswith("linux"):
         try:
-            # On Linux, ru_maxrss is in KiB
-            return float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024.0
+            with open("/proc/self/statm", "r") as f:
+                pages = int(f.read().split()[1])
+            return float(pages * os.sysconf("SC_PAGE_SIZE")) / (1024.0 * 1024.0)
         except Exception:
             pass
+
+    if resource is not None:
+        try:
+            raw_rss = float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+            if sys.platform == "darwin":
+                return raw_rss / (1024.0 * 1024.0)
+            else:
+                return raw_rss / 1024.0
+        except Exception:
+            pass
+
+    log.debug("Process RSS telemetry unavailable on platform %s without psutil", sys.platform)
     return 0.0
 
 

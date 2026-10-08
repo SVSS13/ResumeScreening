@@ -16,9 +16,12 @@ from ..services.job_service import JobService, QueueFullError, ServiceUnavailabl
 from ..services.workers import WorkerRuntime
 from .deps import container, get_job_service, get_metrics_collector
 from .middleware import RateLimitMiddleware
-from .schemas import HealthResponse, JobResponse, ScreenRequest, ScreenResponse
+from .schemas import HealthResponse, JobResponse, ScreenRequest, ScreenResponse, RankingResultsResponse
 
+import logging
 from ..pipeline import run
+
+logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
 _start_time = time.time()
 _last_result: dict = {}
@@ -48,15 +51,48 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     worker_runtime.shutdown(wait=True)
 
 
-app = FastAPI(title="AI Resume Screening & Ranking Service", version="2.0.0", lifespan=lifespan)
+API_DESCRIPTION = """
+## AI Resume Screening & Ranking Platform (API Reference)
+
+### End-to-End Workflow:
+1. **Submit Batch Job (`POST /screen`)**:
+   - Provide `input_dir` (e.g. `./resumes`), `use_github` boolean, and optional `sync: false`.
+   - Returns HTTP `202 Accepted` with a unique `job_id` (e.g. `53588fa7-07e4-48ca-ab36-f2dd69f05193`).
+2. **Monitor Job Progress (`GET /jobs/{job_id}`)**:
+   - Poll until `status` transitions from `"queued"` -> `"running"` -> `"done"`.
+   - Inspect file progress: `processed_files / total_files`.
+3. **Retrieve Rankings (`GET /results/{job_id}`)**:
+   - Returns fully ranked qualified candidates, deterministic 100-point score breakdowns, penalties, and audit reasons for rejected candidates.
+   - Or call parameterless `GET /results` to automatically fetch the most recently completed screening run!
+4. **Telemetry & Health**:
+   - `GET /metrics`: In-memory cache hit ratio, eviction counts, rate limits, and memory RSS.
+   - `GET /health`: Liveness and readiness probe with process memory RSS.
+
+*Tip:* When providing `job_id`, use the raw UUID (e.g. `53588fa7-07e4-48ca-ab36-f2dd69f05193`). Do NOT include `jobs/`.
+"""
+
+app = FastAPI(
+    title="AI Resume Screening & Ranking Service",
+    version="2.0.0",
+    description=API_DESCRIPTION,
+    lifespan=lifespan,
+    openapi_tags=[
+        {"name": "Screening Jobs", "description": "Enqueue and poll background screening batch jobs"},
+        {"name": "Rankings & Results", "description": "Retrieve ranked candidate lists and score breakdowns"},
+        {"name": "Observability", "description": "System health, memory telemetry, and cache metrics"},
+    ],
+)
 metrics_collector_global = MetricsCollector()
 app.add_middleware(RateLimitMiddleware, metrics=metrics_collector_global)
 
 
 @app.post(
     "/screen",
+    response_model=ScreenResponse,
     status_code=status.HTTP_202_ACCEPTED,
     summary="Enqueue a resume screening batch job",
+    tags=["Screening Jobs"],
+    description="Enqueue a folder of PDF/DOCX/TXT resumes for asynchronous screening. Returns a unique job_id.",
 )
 async def screen(
     req: ScreenRequest,
@@ -104,14 +140,17 @@ async def screen(
     "/jobs/{job_id}",
     response_model=JobResponse,
     summary="Retrieve status and progress of a screening job",
+    tags=["Screening Jobs"],
+    description="Check the current status and file parsing progress of a job by its UUID.",
 )
 async def get_job_status(
     job_id: str,
     job_service: JobService = Depends(get_job_service),
 ) -> JobResponse:
-    job = job_service.get_job(job_id)
+    clean_id = job_id.removeprefix("jobs/").removeprefix("jobs%2F").strip()
+    job = job_service.get_job(clean_id)
     if job is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Job not found: {job_id}")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Job not found: {clean_id}")
 
     return JobResponse(
         job_id=job.job_id,
@@ -127,25 +166,38 @@ async def get_job_status(
 
 @app.get(
     "/results",
+    response_model=RankingResultsResponse,
     summary="Retrieve results of the last completed run",
+    tags=["Rankings & Results"],
+    description="Convenience endpoint returning the final ranking results from the most recent completed screening run.",
 )
-async def get_latest_results() -> dict:
+async def get_latest_results(
+    job_service: JobService = Depends(get_job_service),
+) -> dict:
     if "result" in _last_result:
         return _last_result["result"]
+
+    if job_service.latest_result is not None:
+        return job_service.latest_result
+
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No run yet; POST /screen first")
 
 
 @app.get(
     "/results/{job_id}",
+    response_model=RankingResultsResponse,
     summary="Retrieve final ranking results for a completed job",
+    tags=["Rankings & Results"],
+    description="Fetch the complete ranked candidate list, scores, and rejection audit trail for a finished job_id.",
 )
 async def get_job_results(
     job_id: str,
     job_service: JobService = Depends(get_job_service),
 ) -> dict:
-    job = job_service.get_job(job_id)
+    clean_id = job_id.removeprefix("jobs/").removeprefix("jobs%2F").strip()
+    job = job_service.get_job(clean_id)
     if job is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Job not found: {job_id}")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Job not found: {clean_id}")
 
     if job.status == "failed":
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=job.error or "Job failed")
@@ -153,10 +205,10 @@ async def get_job_results(
     if job.status != "done":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Job is still {job.status}; check /jobs/{job_id} for progress",
+            detail=f"Job is still {job.status}; check /jobs/{clean_id} for progress",
         )
 
-    results = job_service.get_results(job_id)
+    results = job_service.get_results(clean_id)
     if results is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Results not available")
 
@@ -166,6 +218,8 @@ async def get_job_results(
 @app.get(
     "/metrics",
     summary="Observability metrics for cache hits, memory RSS, and rate limits",
+    tags=["Observability"],
+    description="Real-time in-memory telemetry snapshot including cache hits/misses, RSS MB, and rate limit counters.",
 )
 async def metrics(
     collector: MetricsCollector = Depends(get_metrics_collector),
@@ -177,6 +231,8 @@ async def metrics(
     "/health",
     response_model=HealthResponse,
     summary="Liveness and readiness health check",
+    tags=["Observability"],
+    description="Health probe returning uptime, current RSS memory in MB, and queue availability status.",
 )
 async def health(
     job_service: JobService = Depends(get_job_service),

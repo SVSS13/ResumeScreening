@@ -6,11 +6,11 @@
     "failed_unreadable": 0,
     "eligible": 33,
     "rejected": 17,
-    "github_ok": 31,
-    "github_failed": 0,
+    "github_ok": 0,
+    "github_failed": 31,
     "llm_ok": 0,
     "llm_failed": 0,
-    "runtime_seconds": 10.29
+    "runtime_seconds": 14.91
   },
   "ranked_candidates": [
     {
@@ -19,12 +19,12 @@
       "file": "candidate_30.pdf",
       "email": "vardhanvsr2004@gmail.com",
       "eligible": true,
-      "total_score": 91.0,
+      "total_score": 84.0,
       "score_breakdown": {
         "ai_project_depth": 36.02414146341253,
         "python_backend": 30.0,
         "cloud_fullstack": 13.0,
-        "github": 7.0,
+        "github": 0.0,
         "engineering_depth": 5.0
       },
       "penalties": [],
@@ -65,17 +65,17 @@
       "github": {
         "username": "raghuvardhan07",
         "profile_url": "https://github.com/raghuvardhan07",
-        "status": "ok",
-        "activity_score": 4.0,
-        "repo_score": 3.0,
-        "score": 7.0,
-        "summary": "Last push 2026-09-02; 3 maintained repos (1 Python/AI-relevant)",
-        "maintained_repos": 3,
-        "relevant_repos": 1,
-        "last_push": "2026-09-02",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449823"
       },
-      "github_summary": "Last push 2026-09-02; 3 maintained repos (1 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Darwinbox – Hyderabad, India' uses Agentic, Agents, Embeddings, LangChain, MCP with retrieval, orchestration state, tools, evaluation, data processing",
         "FastAPI used in project/experience work",
@@ -83,7 +83,9 @@
         "Containerised/cloud deployment experience",
         "Non-trivial engineering signals: testing, architecture, caching, observability"
       ],
-      "concerns": [],
+      "concerns": [
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
       "jd_similarity": 0.092,
       "llm_status": "disabled",
       "warnings": []
@@ -94,12 +96,12 @@
       "file": "candidate_35.pdf",
       "email": "prathameshpatil330@gmail.com",
       "eligible": true,
-      "total_score": 89.8,
+      "total_score": 79.8,
       "score_breakdown": {
         "ai_project_depth": 31.821184038974575,
         "python_backend": 30.0,
         "cloud_fullstack": 13.0,
-        "github": 10.0,
+        "github": 0.0,
         "engineering_depth": 5.0
       },
       "penalties": [],
@@ -141,17 +143,17 @@
       "github": {
         "username": "Prathameshh-Patil",
         "profile_url": "https://github.com/Prathameshh-Patil",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-10-08; 11 maintained repos (8 Python/AI-relevant)",
-        "maintained_repos": 11,
-        "relevant_repos": 8,
-        "last_push": "2026-10-08",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449748"
       },
-      "github_summary": "Last push 2026-10-08; 11 maintained repos (8 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Adaptive Agentic RAG - Multi-Agent Research System' uses Agentic, Agents, Embeddings, LangGraph, RAG with retrieval, orchestration state, evaluation, data processing",
         "FastAPI used in project/experience work",
@@ -160,7 +162,8 @@
         "Non-trivial engineering signals: architecture, caching, queues, observability"
       ],
       "concerns": [
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.099,
       "llm_status": "disabled",
@@ -172,12 +175,12 @@
       "file": "candidate_41.pdf",
       "email": "harishankersharma648@gmail.com",
       "eligible": true,
-      "total_score": 85.5,
+      "total_score": 77.5,
       "score_breakdown": {
         "ai_project_depth": 29.456614068464688,
         "python_backend": 30.0,
         "cloud_fullstack": 13.0,
-        "github": 8.0,
+        "github": 0.0,
         "engineering_depth": 5.0
       },
       "penalties": [],
@@ -221,17 +224,17 @@
       "github": {
         "username": "triggered-exe",
         "profile_url": "https://github.com/triggered-exe",
-        "status": "ok",
-        "activity_score": 4.0,
-        "repo_score": 4.0,
-        "score": 8.0,
-        "summary": "Last push 2026-08-25; 4 maintained repos (2 Python/AI-relevant)",
-        "maintained_repos": 4,
-        "relevant_repos": 2,
-        "last_push": "2026-08-25",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791447216"
       },
-      "github_summary": "Last push 2026-08-25; 4 maintained repos (2 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Hari Shanker Sharma' uses Agentic, Agents, Embeddings, LangChain, LangGraph with retrieval, orchestration state, tools, data processing",
         "FastAPI used in project/experience work",
@@ -240,7 +243,8 @@
         "Non-trivial engineering signals: testing, architecture, queues, observability"
       ],
       "concerns": [
-        "No evaluation/metrics evidence in the AI project"
+        "No evaluation/metrics evidence in the AI project",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.07,
       "llm_status": "disabled",
@@ -254,12 +258,12 @@
       "file": "candidate_07.pdf",
       "email": "craftzyan@gmail.com",
       "eligible": true,
-      "total_score": 82.3,
+      "total_score": 72.3,
       "score_breakdown": {
         "ai_project_depth": 33.81397191900987,
         "python_backend": 28.0,
         "cloud_fullstack": 6.5,
-        "github": 10.0,
+        "github": 0.0,
         "engineering_depth": 4.0
       },
       "penalties": [],
@@ -293,17 +297,17 @@
       "github": {
         "username": "ZyanHere",
         "profile_url": "https://github.com/ZyanHere",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-10-08; 9 maintained repos (5 Python/AI-relevant)",
-        "maintained_repos": 9,
-        "relevant_repos": 5,
-        "last_push": "2026-10-08",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449823"
       },
-      "github_summary": "Last push 2026-10-08; 9 maintained repos (5 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Orchestrated a multi-agent chat system on a LangGraph StateGraph — a supervisor…' uses Agentic, Agents, LangGraph, RAG, Tool Calling with retrieval, orchestration state, tools, evaluation",
         "FastAPI used in project/experience work",
@@ -313,7 +317,8 @@
       "concerns": [
         "Limited PostgreSQL evidence",
         "No Docker/deployment evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.077,
       "llm_status": "disabled",
@@ -321,88 +326,16 @@
     },
     {
       "rank": 5,
-      "candidate_name": "Prajwal A S",
-      "file": "candidate_22.pdf",
-      "email": "prajwalas8999@gmail.com",
-      "eligible": true,
-      "total_score": 78.1,
-      "score_breakdown": {
-        "ai_project_depth": 32.113501433193015,
-        "python_backend": 30.0,
-        "cloud_fullstack": 4.0,
-        "github": 9.0,
-        "engineering_depth": 3.0
-      },
-      "penalties": [],
-      "matched_skills": [
-        "Agentic",
-        "Agents",
-        "Embeddings",
-        "FastAPI",
-        "Flask",
-        "JavaScript/TypeScript",
-        "LLM",
-        "LangChain",
-        "LangGraph",
-        "MySQL/SQLite/SQL",
-        "Node.js",
-        "Open-source LLMs",
-        "PostgreSQL",
-        "Pydantic",
-        "Python",
-        "RAG",
-        "React",
-        "SQLAlchemy",
-        "Tool Calling",
-        "Vector DB"
-      ],
-      "rejection_reasons": [],
-      "project_summary": "AI-Powered HPC Monitoring Assistant — CHAMP Supercomputer: Built a multi-agent prompt pipeline with deterministic, multi-stage reasoning, eliminating hallucinated tool calls and making failure modes explicit and debuggable.",
-      "evidence": [
-        "Built a multi-agent prompt pipeline with deterministic, multi-stage reasoning, eliminating hallucinated tool calls and making failure modes explicit and debuggable.",
-        "Implemented domain-specific SQL generation rules for GPU node filtering, time-bucketing, and job-count queries across 8 telemetry tables, deployed daily on live HPC infrastructure."
-      ],
-      "github": {
-        "username": "prajwalas1",
-        "profile_url": "https://github.com/prajwalas1",
-        "status": "ok",
-        "activity_score": 4.0,
-        "repo_score": 5.0,
-        "score": 9.0,
-        "summary": "Last push 2026-08-07; 8 maintained repos (6 Python/AI-relevant)",
-        "maintained_repos": 8,
-        "relevant_repos": 6,
-        "last_push": "2026-08-07",
-        "detail": null
-      },
-      "github_summary": "Last push 2026-08-07; 8 maintained repos (6 Python/AI-relevant)",
-      "strengths": [
-        "AI project 'AI-Powered HPC Monitoring Assistant — CHAMP Supercomputer' uses Agentic, Agents, LangChain, LangGraph, Vector DB with retrieval, orchestration state, evaluation, data processing",
-        "FastAPI used in project/experience work",
-        "Python used across multiple projects/roles",
-        "Non-trivial engineering signals: architecture, observability, concurrency"
-      ],
-      "concerns": [
-        "Limited Redis evidence",
-        "No Docker/deployment evidence",
-        "No testing evidence"
-      ],
-      "jd_similarity": 0.058,
-      "llm_status": "disabled",
-      "warnings": []
-    },
-    {
-      "rank": 6,
       "candidate_name": "Gourab Das",
       "file": "candidate_17.pdf",
       "email": "gourabdas1307@gmail.com",
       "eligible": true,
-      "total_score": 78.0,
+      "total_score": 72.0,
       "score_breakdown": {
         "ai_project_depth": 26.469655491664827,
         "python_backend": 30.0,
         "cloud_fullstack": 11.5,
-        "github": 6.0,
+        "github": 0.0,
         "engineering_depth": 4.0
       },
       "penalties": [],
@@ -439,17 +372,17 @@
       "github": {
         "username": "gdas37467",
         "profile_url": "https://github.com/gdas37467",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 1.0,
-        "score": 6.0,
-        "summary": "Last push 2026-09-20; 1 maintained repos (0 Python/AI-relevant)",
-        "maintained_repos": 1,
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
         "relevant_repos": 0,
-        "last_push": "2026-09-20",
-        "detail": null
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449823"
       },
-      "github_summary": "Last push 2026-09-20; 1 maintained repos (0 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Software Developer' uses Agentic, Agents, Embeddings, LangGraph, Vector DB with retrieval, orchestration state, evaluation, data processing",
         "FastAPI used in project/experience work",
@@ -458,9 +391,83 @@
         "Non-trivial engineering signals: testing, queues, concurrency, failure_handling"
       ],
       "concerns": [
-        "Limited Redis evidence"
+        "Limited Redis evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.055,
+      "llm_status": "disabled",
+      "warnings": []
+    },
+    {
+      "rank": 6,
+      "candidate_name": "Prajwal A S",
+      "file": "candidate_22.pdf",
+      "email": "prajwalas8999@gmail.com",
+      "eligible": true,
+      "total_score": 69.1,
+      "score_breakdown": {
+        "ai_project_depth": 32.113501433193015,
+        "python_backend": 30.0,
+        "cloud_fullstack": 4.0,
+        "github": 0.0,
+        "engineering_depth": 3.0
+      },
+      "penalties": [],
+      "matched_skills": [
+        "Agentic",
+        "Agents",
+        "Embeddings",
+        "FastAPI",
+        "Flask",
+        "JavaScript/TypeScript",
+        "LLM",
+        "LangChain",
+        "LangGraph",
+        "MySQL/SQLite/SQL",
+        "Node.js",
+        "Open-source LLMs",
+        "PostgreSQL",
+        "Pydantic",
+        "Python",
+        "RAG",
+        "React",
+        "SQLAlchemy",
+        "Tool Calling",
+        "Vector DB"
+      ],
+      "rejection_reasons": [],
+      "project_summary": "AI-Powered HPC Monitoring Assistant — CHAMP Supercomputer: Built a multi-agent prompt pipeline with deterministic, multi-stage reasoning, eliminating hallucinated tool calls and making failure modes explicit and debuggable.",
+      "evidence": [
+        "Built a multi-agent prompt pipeline with deterministic, multi-stage reasoning, eliminating hallucinated tool calls and making failure modes explicit and debuggable.",
+        "Implemented domain-specific SQL generation rules for GPU node filtering, time-bucketing, and job-count queries across 8 telemetry tables, deployed daily on live HPC infrastructure."
+      ],
+      "github": {
+        "username": "prajwalas1",
+        "profile_url": "https://github.com/prajwalas1",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791447216"
+      },
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+      "strengths": [
+        "AI project 'AI-Powered HPC Monitoring Assistant — CHAMP Supercomputer' uses Agentic, Agents, LangChain, LangGraph, Vector DB with retrieval, orchestration state, evaluation, data processing",
+        "FastAPI used in project/experience work",
+        "Python used across multiple projects/roles",
+        "Non-trivial engineering signals: architecture, observability, concurrency"
+      ],
+      "concerns": [
+        "Limited Redis evidence",
+        "No Docker/deployment evidence",
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
+      "jd_similarity": 0.058,
       "llm_status": "disabled",
       "warnings": []
     },
@@ -470,12 +477,12 @@
       "file": "candidate_13.pdf",
       "email": "mainiyash2@gmail.com",
       "eligible": true,
-      "total_score": 77.9,
+      "total_score": 67.9,
       "score_breakdown": {
         "ai_project_depth": 30.360699821907897,
         "python_backend": 29.0,
         "cloud_fullstack": 8.5,
-        "github": 10.0,
+        "github": 0.0,
         "engineering_depth": 5.0
       },
       "penalties": [
@@ -522,17 +529,17 @@
       "github": {
         "username": "Yashmaini30",
         "profile_url": "https://github.com/Yashmaini30",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-09-19; 11 maintained repos (7 Python/AI-relevant)",
-        "maintained_repos": 11,
-        "relevant_repos": 7,
-        "last_push": "2026-09-19",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791447216"
       },
-      "github_summary": "Last push 2026-09-19; 11 maintained repos (7 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'NetoAI Solutions' uses Agentic, Agents, Embeddings, LangGraph, RAG with retrieval, orchestration state, tools, evaluation, data processing",
         "FastAPI used in project/experience work",
@@ -542,7 +549,8 @@
       ],
       "concerns": [
         "Limited Redis evidence",
-        "Tutorial-style / no ownership evidence in best AI project"
+        "Tutorial-style / no ownership evidence in best AI project",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.085,
       "llm_status": "disabled",
@@ -550,431 +558,6 @@
     },
     {
       "rank": 8,
-      "candidate_name": "Sumaiya Sultana Shaik",
-      "file": "candidate_28.pdf",
-      "email": "sultanasumaiya623@gmail.com",
-      "eligible": true,
-      "total_score": 70.6,
-      "score_breakdown": {
-        "ai_project_depth": 21.13354388196473,
-        "python_backend": 25.0,
-        "cloud_fullstack": 10.5,
-        "github": 10.0,
-        "engineering_depth": 4.0
-      },
-      "penalties": [],
-      "matched_skills": [
-        "Agentic",
-        "Agents",
-        "CI/CD",
-        "Docker",
-        "FastAPI",
-        "GCP",
-        "Java",
-        "JavaScript/TypeScript",
-        "LLM",
-        "LangChain",
-        "LangGraph",
-        "MySQL/SQLite/SQL",
-        "NLP",
-        "PostgreSQL",
-        "Pytest",
-        "Python",
-        "RAG",
-        "React",
-        "Scikit-learn"
-      ],
-      "rejection_reasons": [],
-      "project_summary": "Project: Built a 3-layer privacy-risk analysis system (FastAPI + React): a spaCy/Microsoft Presidio NLP layer detecting 8+ PII entity types, a Random Forest classifier scoring text as LOW/MEDIUM/HIGH risk (∼89% accuracy on a hel…",
-      "evidence": [
-        "Built a 3-layer privacy-risk analysis system (FastAPI + React): a spaCy/Microsoft Presidio NLP layer detecting 8+ PII entity types, a Random Forest classifier scoring text as LOW/MEDIUM/HIGH risk (∼89% accuracy on a hel…"
-      ],
-      "github": {
-        "username": "sumaiya226",
-        "profile_url": "https://github.com/sumaiya226",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-09-13; 9 maintained repos (5 Python/AI-relevant)",
-        "maintained_repos": 9,
-        "relevant_repos": 5,
-        "last_push": "2026-09-13",
-        "detail": null
-      },
-      "github_summary": "Last push 2026-09-13; 9 maintained repos (5 Python/AI-relevant)",
-      "strengths": [
-        "AI project 'Project' uses LangChain, LLM, NLP with orchestration state, evaluation, data processing",
-        "FastAPI used in project/experience work",
-        "Python used across multiple projects/roles",
-        "Containerised/cloud deployment experience",
-        "Non-trivial engineering signals: testing, architecture, observability, failure_handling"
-      ],
-      "concerns": [
-        "Limited Redis evidence"
-      ],
-      "jd_similarity": 0.097,
-      "llm_status": "disabled",
-      "warnings": []
-    },
-    {
-      "rank": 9,
-      "candidate_name": "Nevil Jasmin Mehta",
-      "file": "candidate_50.pdf",
-      "email": "nevilmehta5@gmail.com",
-      "eligible": true,
-      "total_score": 69.9,
-      "score_breakdown": {
-        "ai_project_depth": 23.880643354823313,
-        "python_backend": 30.0,
-        "cloud_fullstack": 8.0,
-        "github": 10.0,
-        "engineering_depth": 3.0
-      },
-      "penalties": [
-        {
-          "reason": "Tutorial-style / no ownership evidence in best AI project",
-          "points": 5.0
-        }
-      ],
-      "matched_skills": [
-        "AWS",
-        "Celery",
-        "Django",
-        "Docker",
-        "Embeddings",
-        "FastAPI",
-        "Flask",
-        "Haystack/DSPy",
-        "Java",
-        "JavaScript/TypeScript",
-        "LLM",
-        "MySQL/SQLite/SQL",
-        "NLP",
-        "Pandas/NumPy",
-        "PostgreSQL",
-        "Python",
-        "RAG",
-        "React",
-        "Redis",
-        "Streamlit/Gradio",
-        "Vector DB"
-      ],
-      "rejection_reasons": [],
-      "project_summary": "AI Document Intelligence: AI Document Intelligence | Built a document platform using RAG, FastAPI, Redis, Celery, pgvector, Nginx & LLMs, improving retrieval accuracy. | Implemented async processing, embeddings & Dockerized AWS-ready architectur…",
-      "evidence": [
-        "AI Document Intelligence | Built a document platform using RAG, FastAPI, Redis, Celery, pgvector, Nginx & LLMs, improving retrieval accuracy. | Implemented async processing, embeddings & Dockerized AWS-ready architectur…"
-      ],
-      "github": {
-        "username": "Nevilmehta",
-        "profile_url": "https://github.com/Nevilmehta",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-10-03; 15 maintained repos (11 Python/AI-relevant)",
-        "maintained_repos": 15,
-        "relevant_repos": 11,
-        "last_push": "2026-10-03",
-        "detail": null
-      },
-      "github_summary": "Last push 2026-10-03; 15 maintained repos (11 Python/AI-relevant)",
-      "strengths": [
-        "AI project 'AI Document Intelligence' uses Embeddings, RAG, Vector DB, LLM, NLP with retrieval, evaluation, data processing",
-        "FastAPI used in project/experience work",
-        "Python used across multiple projects/roles",
-        "Non-trivial engineering signals: architecture, queues, concurrency"
-      ],
-      "concerns": [
-        "No testing evidence",
-        "Tutorial-style / no ownership evidence in best AI project"
-      ],
-      "jd_similarity": 0.049,
-      "llm_status": "disabled",
-      "warnings": []
-    },
-    {
-      "rank": 10,
-      "candidate_name": "Arjun Kumar",
-      "file": "candidate_08.pdf",
-      "email": "roy.prajapat.143@gmail.com",
-      "eligible": true,
-      "total_score": 69.5,
-      "score_breakdown": {
-        "ai_project_depth": 25.00555095762603,
-        "python_backend": 30.0,
-        "cloud_fullstack": 3.5,
-        "github": 10.0,
-        "engineering_depth": 1.0
-      },
-      "penalties": [],
-      "matched_skills": [
-        "AWS",
-        "Agentic",
-        "CI/CD",
-        "Django",
-        "Embeddings",
-        "FastAPI",
-        "HuggingFace",
-        "Java",
-        "JavaScript/TypeScript",
-        "LLM",
-        "LangChain",
-        "LangGraph",
-        "ML/DL",
-        "MySQL/SQLite/SQL",
-        "NLP",
-        "Next.js",
-        "Node.js",
-        "PostgreSQL",
-        "Python",
-        "RAG",
-        "React",
-        "Scikit-learn",
-        "TensorFlow/Keras"
-      ],
-      "rejection_reasons": [],
-      "project_summary": "Deepfake Detection System (Multimodal & Explainable AI): Put together a multimodal deepfake detector using Vision Transformer (ViT) and OpenCV that reached 92% detection accuracy; the FastAPI backend runs async with a thread-safe inference pipeline so multiple media files can…",
-      "evidence": [
-        "Put together a multimodal deepfake detector using Vision Transformer (ViT) and OpenCV that reached 92% detection accuracy; the FastAPI backend runs async with a thread-safe inference pipeline so multiple media files can…",
-        "Wired up a Next.js frontend with an optimized inference flow to keep detection results snappy, and used LangGraph to orchestrate the multi-step analysis pipeline."
-      ],
-      "github": {
-        "username": "arjunkumaritsme12",
-        "profile_url": "https://github.com/arjunkumaritsme12",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-09-27; 23 maintained repos (10 Python/AI-relevant)",
-        "maintained_repos": 23,
-        "relevant_repos": 10,
-        "last_push": "2026-09-27",
-        "detail": null
-      },
-      "github_summary": "Last push 2026-09-27; 23 maintained repos (10 Python/AI-relevant)",
-      "strengths": [
-        "AI project 'Deepfake Detection System (Multimodal & Explainable AI)' uses LangGraph with orchestration state, evaluation, data processing",
-        "FastAPI used in project/experience work",
-        "Python used across multiple projects/roles"
-      ],
-      "concerns": [
-        "Limited Redis evidence",
-        "No Docker/deployment evidence",
-        "No testing evidence"
-      ],
-      "jd_similarity": 0.069,
-      "llm_status": "disabled",
-      "warnings": []
-    },
-    {
-      "rank": 11,
-      "candidate_name": "Vaibhav Wakde",
-      "file": "candidate_33.pdf",
-      "email": "vaibhavwakde266@gmail.com",
-      "eligible": true,
-      "total_score": 68.0,
-      "score_breakdown": {
-        "ai_project_depth": 22.034969266065616,
-        "python_backend": 27.0,
-        "cloud_fullstack": 6.0,
-        "github": 9.0,
-        "engineering_depth": 4.0
-      },
-      "penalties": [],
-      "matched_skills": [
-        "Agentic",
-        "Agents",
-        "Chatbot",
-        "Embeddings",
-        "FastAPI",
-        "Flask",
-        "GCP",
-        "HuggingFace",
-        "JavaScript/TypeScript",
-        "LLM",
-        "LangChain",
-        "LangGraph",
-        "LlamaIndex",
-        "Open-source LLMs",
-        "Python",
-        "RAG",
-        "Tool Calling",
-        "Vector DB"
-      ],
-      "rejection_reasons": [],
-      "project_summary": "Coding Nebula, Software developer: Built an AI-powered invoice analysis platform using Python, Flask, OCR, RAG, and Weaviate, enabling semantic retrieval and conversational querying across PDF and image invoices with Ollama and Hugging Face models.",
-      "evidence": [
-        "Built an AI-powered invoice analysis platform using Python, Flask, OCR, RAG, and Weaviate, enabling semantic retrieval and conversational querying across PDF and image invoices with Ollama and Hugging Face models.",
-        "Built an AI system that generates website templates from text prompts, using RAG (LangChain, LlamaIndex, Qwen3-Embedding-0.6B) for context-aware retrieval and asynchronous Flask APIs for real-time generation."
-      ],
-      "github": {
-        "username": "vaibhavw1",
-        "profile_url": "https://github.com/vaibhavw1",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 4.0,
-        "score": 9.0,
-        "summary": "Last push 2026-09-16; 4 maintained repos (3 Python/AI-relevant)",
-        "maintained_repos": 4,
-        "relevant_repos": 3,
-        "last_push": "2026-09-16",
-        "detail": null
-      },
-      "github_summary": "Last push 2026-09-16; 4 maintained repos (3 Python/AI-relevant)",
-      "strengths": [
-        "AI project 'Coding Nebula, Software developer' uses Embeddings, LangChain, LlamaIndex, RAG, Vector DB with retrieval, data processing",
-        "FastAPI used in project/experience work",
-        "Python used across multiple projects/roles",
-        "Non-trivial engineering signals: testing, caching, observability, concurrency"
-      ],
-      "concerns": [
-        "No evaluation/metrics evidence in the AI project",
-        "Limited PostgreSQL evidence",
-        "Limited Redis evidence",
-        "No Docker/deployment evidence"
-      ],
-      "jd_similarity": 0.049,
-      "llm_status": "disabled",
-      "warnings": []
-    },
-    {
-      "rank": 12,
-      "candidate_name": "Vivek Chimnani",
-      "file": "candidate_44.pdf",
-      "email": "vivekchimnani4231@gmail.com",
-      "eligible": true,
-      "total_score": 67.5,
-      "score_breakdown": {
-        "ai_project_depth": 14.013742591764206,
-        "python_backend": 30.0,
-        "cloud_fullstack": 11.5,
-        "github": 9.0,
-        "engineering_depth": 3.0
-      },
-      "penalties": [],
-      "matched_skills": [
-        "AWS",
-        "CI/CD",
-        "Claude/Anthropic",
-        "Docker",
-        "FastAPI",
-        "JavaScript/TypeScript",
-        "LLM",
-        "LangGraph",
-        "MySQL/SQLite/SQL",
-        "Next.js",
-        "Node.js",
-        "PostgreSQL",
-        "Python",
-        "React",
-        "Redis"
-      ],
-      "rejection_reasons": [],
-      "project_summary": "AI Research Copilot (LangGraph): Built a production-style AI research assistant using React, FastAPI, LangGraph, and LLM APIs.",
-      "evidence": [
-        "Built a production-style AI research assistant using React, FastAPI, LangGraph, and LLM APIs.",
-        "Designed a multi-node workflow with planning, research, analysis, quality checks, and report generation using shared graph state and conditional routing."
-      ],
-      "github": {
-        "username": "Vivekk-11",
-        "profile_url": "https://github.com/Vivekk-11",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 4.0,
-        "score": 9.0,
-        "summary": "Last push 2026-09-17; 17 maintained repos (1 Python/AI-relevant)",
-        "maintained_repos": 17,
-        "relevant_repos": 1,
-        "last_push": "2026-09-17",
-        "detail": null
-      },
-      "github_summary": "Last push 2026-09-17; 17 maintained repos (1 Python/AI-relevant)",
-      "strengths": [
-        "AI project 'AI Research Copilot (LangGraph)' uses LangGraph, LLM with orchestration state",
-        "FastAPI used in project/experience work",
-        "Python used across multiple projects/roles",
-        "Containerised/cloud deployment experience",
-        "Non-trivial engineering signals: architecture, observability, concurrency"
-      ],
-      "concerns": [
-        "No evaluation/metrics evidence in the AI project",
-        "No testing evidence"
-      ],
-      "jd_similarity": 0.046,
-      "llm_status": "disabled",
-      "warnings": []
-    },
-    {
-      "rank": 13,
-      "candidate_name": "Raj Thumar",
-      "file": "candidate_40.pdf",
-      "email": "thumarraj999@gmail.com",
-      "eligible": true,
-      "total_score": 65.9,
-      "score_breakdown": {
-        "ai_project_depth": 25.85830830344756,
-        "python_backend": 23.0,
-        "cloud_fullstack": 9.5,
-        "github": 2.5,
-        "engineering_depth": 5.0
-      },
-      "penalties": [],
-      "matched_skills": [
-        "AWS",
-        "CI/CD",
-        "Chatbot",
-        "Docker",
-        "Flask",
-        "Gemini",
-        "JavaScript/TypeScript",
-        "Kafka/RabbitMQ",
-        "LLM",
-        "MCP",
-        "MySQL/SQLite/SQL",
-        "Node.js",
-        "OpenAI",
-        "PostgreSQL",
-        "Python",
-        "RAG",
-        "React",
-        "Redis"
-      ],
-      "rejection_reasons": [],
-      "project_summary": "AI Workflow Orchestration Engine(NestJS, Apache Kafka, PostgreSQL, Redis, OpenA…: Built a distributed AI workflow engine to execute multi-step LLM pipelines using event-driven architecture.",
-      "evidence": [
-        "Built a distributed AI workflow engine to execute multi-step LLM pipelines using event-driven architecture.",
-        "Integrated OpenAI, Gemini, and RAG for context-aware AI workflows."
-      ],
-      "github": {
-        "username": "rthumar0903",
-        "profile_url": "https://github.com/rthumar0903",
-        "status": "ok",
-        "activity_score": 1.5,
-        "repo_score": 1.0,
-        "score": 2.5,
-        "summary": "Last push 2026-02-08; 2 maintained repos (0 Python/AI-relevant)",
-        "maintained_repos": 2,
-        "relevant_repos": 0,
-        "last_push": "2026-02-08",
-        "detail": null
-      },
-      "github_summary": "Last push 2026-02-08; 2 maintained repos (0 Python/AI-relevant)",
-      "strengths": [
-        "AI project 'AI Workflow Orchestration Engine(NestJS, Apache Kafka, PostgreSQL, Redis, OpenA…' uses MCP, RAG, Gemini, LLM, OpenAI with orchestration state, tools, data processing",
-        "Containerised/cloud deployment experience",
-        "Non-trivial engineering signals: architecture, caching, queues, observability"
-      ],
-      "concerns": [
-        "No evaluation/metrics evidence in the AI project",
-        "No testing evidence"
-      ],
-      "jd_similarity": 0.047,
-      "llm_status": "disabled",
-      "warnings": []
-    },
-    {
-      "rank": 14,
       "candidate_name": "Arunima Saha",
       "file": "candidate_43.pdf",
       "email": "arunimasaha11@gmail.com",
@@ -1048,84 +631,448 @@
       "warnings": []
     },
     {
-      "rank": 15,
-      "candidate_name": "Aditi Kala",
-      "file": "candidate_37.pdf",
-      "email": "aditi25.kala@gmail.com",
+      "rank": 9,
+      "candidate_name": "Raj Thumar",
+      "file": "candidate_40.pdf",
+      "email": "thumarraj999@gmail.com",
       "eligible": true,
-      "total_score": 65.0,
+      "total_score": 63.4,
       "score_breakdown": {
-        "ai_project_depth": 20.02631972411303,
-        "python_backend": 21.0,
-        "cloud_fullstack": 12.0,
-        "github": 10.0,
-        "engineering_depth": 2.0
+        "ai_project_depth": 25.85830830344756,
+        "python_backend": 23.0,
+        "cloud_fullstack": 9.5,
+        "github": 0.0,
+        "engineering_depth": 5.0
       },
       "penalties": [],
       "matched_skills": [
-        "Agents",
+        "AWS",
+        "CI/CD",
         "Chatbot",
         "Docker",
-        "FastAPI",
         "Flask",
-        "GCP",
         "Gemini",
-        "Java",
+        "JavaScript/TypeScript",
+        "Kafka/RabbitMQ",
         "LLM",
-        "ML/DL",
+        "MCP",
         "MySQL/SQLite/SQL",
-        "Next.js",
         "Node.js",
+        "OpenAI",
         "PostgreSQL",
-        "PyTorch",
         "Python",
+        "RAG",
         "React",
-        "TensorFlow/Keras"
+        "Redis"
       ],
       "rejection_reasons": [],
-      "project_summary": "Software Engineer Intern: Software Engineer Intern June 2025 - Present | AI Assistant Pune | – Built an automated agent QA framework with scripted and LLM-to-LLM test modes and an LLM scoring engine, | cutting manual validation time by 60%. | –…",
+      "project_summary": "AI Workflow Orchestration Engine(NestJS, Apache Kafka, PostgreSQL, Redis, OpenA…: Built a distributed AI workflow engine to execute multi-step LLM pipelines using event-driven architecture.",
       "evidence": [
-        "Software Engineer Intern June 2025 - Present | AI Assistant Pune | – Built an automated agent QA framework with scripted and LLM-to-LLM test modes and an LLM scoring engine, | cutting manual validation time by 60%. | –…"
+        "Built a distributed AI workflow engine to execute multi-step LLM pipelines using event-driven architecture.",
+        "Integrated OpenAI, Gemini, and RAG for context-aware AI workflows."
       ],
       "github": {
-        "username": "why-aditi",
-        "profile_url": "https://github.com/why-aditi",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-10-01; 27 maintained repos (11 Python/AI-relevant)",
-        "maintained_repos": 27,
-        "relevant_repos": 11,
-        "last_push": "2026-10-01",
-        "detail": null
+        "username": "rthumar0903",
+        "profile_url": "https://github.com/rthumar0903",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449748"
       },
-      "github_summary": "Last push 2026-10-01; 27 maintained repos (11 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
-        "AI project 'Software Engineer Intern' uses Agents, Chatbot, Gemini, LLM with orchestration state, evaluation, data processing",
-        "FastAPI used in project/experience work",
-        "Containerised/cloud deployment experience"
+        "AI project 'AI Workflow Orchestration Engine(NestJS, Apache Kafka, PostgreSQL, Redis, OpenA…' uses MCP, RAG, Gemini, LLM, OpenAI with orchestration state, tools, data processing",
+        "Containerised/cloud deployment experience",
+        "Non-trivial engineering signals: architecture, caching, queues, observability"
       ],
       "concerns": [
-        "Limited PostgreSQL evidence",
-        "Limited Redis evidence"
+        "No evaluation/metrics evidence in the AI project",
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
-      "jd_similarity": 0.032,
+      "jd_similarity": 0.047,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 16,
+      "rank": 10,
+      "candidate_name": "Sumaiya Sultana Shaik",
+      "file": "candidate_28.pdf",
+      "email": "sultanasumaiya623@gmail.com",
+      "eligible": true,
+      "total_score": 60.6,
+      "score_breakdown": {
+        "ai_project_depth": 21.13354388196473,
+        "python_backend": 25.0,
+        "cloud_fullstack": 10.5,
+        "github": 0.0,
+        "engineering_depth": 4.0
+      },
+      "penalties": [],
+      "matched_skills": [
+        "Agentic",
+        "Agents",
+        "CI/CD",
+        "Docker",
+        "FastAPI",
+        "GCP",
+        "Java",
+        "JavaScript/TypeScript",
+        "LLM",
+        "LangChain",
+        "LangGraph",
+        "MySQL/SQLite/SQL",
+        "NLP",
+        "PostgreSQL",
+        "Pytest",
+        "Python",
+        "RAG",
+        "React",
+        "Scikit-learn"
+      ],
+      "rejection_reasons": [],
+      "project_summary": "Project: Built a 3-layer privacy-risk analysis system (FastAPI + React): a spaCy/Microsoft Presidio NLP layer detecting 8+ PII entity types, a Random Forest classifier scoring text as LOW/MEDIUM/HIGH risk (∼89% accuracy on a hel…",
+      "evidence": [
+        "Built a 3-layer privacy-risk analysis system (FastAPI + React): a spaCy/Microsoft Presidio NLP layer detecting 8+ PII entity types, a Random Forest classifier scoring text as LOW/MEDIUM/HIGH risk (∼89% accuracy on a hel…"
+      ],
+      "github": {
+        "username": "sumaiya226",
+        "profile_url": "https://github.com/sumaiya226",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791447216"
+      },
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+      "strengths": [
+        "AI project 'Project' uses LangChain, LLM, NLP with orchestration state, evaluation, data processing",
+        "FastAPI used in project/experience work",
+        "Python used across multiple projects/roles",
+        "Containerised/cloud deployment experience",
+        "Non-trivial engineering signals: testing, architecture, observability, failure_handling"
+      ],
+      "concerns": [
+        "Limited Redis evidence",
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
+      "jd_similarity": 0.097,
+      "llm_status": "disabled",
+      "warnings": []
+    },
+    {
+      "rank": 11,
+      "candidate_name": "Nevil Jasmin Mehta",
+      "file": "candidate_50.pdf",
+      "email": "nevilmehta5@gmail.com",
+      "eligible": true,
+      "total_score": 59.9,
+      "score_breakdown": {
+        "ai_project_depth": 23.880643354823313,
+        "python_backend": 30.0,
+        "cloud_fullstack": 8.0,
+        "github": 0.0,
+        "engineering_depth": 3.0
+      },
+      "penalties": [
+        {
+          "reason": "Tutorial-style / no ownership evidence in best AI project",
+          "points": 5.0
+        }
+      ],
+      "matched_skills": [
+        "AWS",
+        "Celery",
+        "Django",
+        "Docker",
+        "Embeddings",
+        "FastAPI",
+        "Flask",
+        "Haystack/DSPy",
+        "Java",
+        "JavaScript/TypeScript",
+        "LLM",
+        "MySQL/SQLite/SQL",
+        "NLP",
+        "Pandas/NumPy",
+        "PostgreSQL",
+        "Python",
+        "RAG",
+        "React",
+        "Redis",
+        "Streamlit/Gradio",
+        "Vector DB"
+      ],
+      "rejection_reasons": [],
+      "project_summary": "AI Document Intelligence: AI Document Intelligence | Built a document platform using RAG, FastAPI, Redis, Celery, pgvector, Nginx & LLMs, improving retrieval accuracy. | Implemented async processing, embeddings & Dockerized AWS-ready architectur…",
+      "evidence": [
+        "AI Document Intelligence | Built a document platform using RAG, FastAPI, Redis, Celery, pgvector, Nginx & LLMs, improving retrieval accuracy. | Implemented async processing, embeddings & Dockerized AWS-ready architectur…"
+      ],
+      "github": {
+        "username": "Nevilmehta",
+        "profile_url": "https://github.com/Nevilmehta",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449748"
+      },
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+      "strengths": [
+        "AI project 'AI Document Intelligence' uses Embeddings, RAG, Vector DB, LLM, NLP with retrieval, evaluation, data processing",
+        "FastAPI used in project/experience work",
+        "Python used across multiple projects/roles",
+        "Non-trivial engineering signals: architecture, queues, concurrency"
+      ],
+      "concerns": [
+        "No testing evidence",
+        "Tutorial-style / no ownership evidence in best AI project",
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
+      "jd_similarity": 0.049,
+      "llm_status": "disabled",
+      "warnings": []
+    },
+    {
+      "rank": 12,
+      "candidate_name": "Arjun Kumar",
+      "file": "candidate_08.pdf",
+      "email": "roy.prajapat.143@gmail.com",
+      "eligible": true,
+      "total_score": 59.5,
+      "score_breakdown": {
+        "ai_project_depth": 25.00555095762603,
+        "python_backend": 30.0,
+        "cloud_fullstack": 3.5,
+        "github": 0.0,
+        "engineering_depth": 1.0
+      },
+      "penalties": [],
+      "matched_skills": [
+        "AWS",
+        "Agentic",
+        "CI/CD",
+        "Django",
+        "Embeddings",
+        "FastAPI",
+        "HuggingFace",
+        "Java",
+        "JavaScript/TypeScript",
+        "LLM",
+        "LangChain",
+        "LangGraph",
+        "ML/DL",
+        "MySQL/SQLite/SQL",
+        "NLP",
+        "Next.js",
+        "Node.js",
+        "PostgreSQL",
+        "Python",
+        "RAG",
+        "React",
+        "Scikit-learn",
+        "TensorFlow/Keras"
+      ],
+      "rejection_reasons": [],
+      "project_summary": "Deepfake Detection System (Multimodal & Explainable AI): Put together a multimodal deepfake detector using Vision Transformer (ViT) and OpenCV that reached 92% detection accuracy; the FastAPI backend runs async with a thread-safe inference pipeline so multiple media files can…",
+      "evidence": [
+        "Put together a multimodal deepfake detector using Vision Transformer (ViT) and OpenCV that reached 92% detection accuracy; the FastAPI backend runs async with a thread-safe inference pipeline so multiple media files can…",
+        "Wired up a Next.js frontend with an optimized inference flow to keep detection results snappy, and used LangGraph to orchestrate the multi-step analysis pipeline."
+      ],
+      "github": {
+        "username": "arjunkumaritsme12",
+        "profile_url": "https://github.com/arjunkumaritsme12",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449804"
+      },
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+      "strengths": [
+        "AI project 'Deepfake Detection System (Multimodal & Explainable AI)' uses LangGraph with orchestration state, evaluation, data processing",
+        "FastAPI used in project/experience work",
+        "Python used across multiple projects/roles"
+      ],
+      "concerns": [
+        "Limited Redis evidence",
+        "No Docker/deployment evidence",
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
+      "jd_similarity": 0.069,
+      "llm_status": "disabled",
+      "warnings": []
+    },
+    {
+      "rank": 13,
+      "candidate_name": "Vaibhav Wakde",
+      "file": "candidate_33.pdf",
+      "email": "vaibhavwakde266@gmail.com",
+      "eligible": true,
+      "total_score": 59.0,
+      "score_breakdown": {
+        "ai_project_depth": 22.034969266065616,
+        "python_backend": 27.0,
+        "cloud_fullstack": 6.0,
+        "github": 0.0,
+        "engineering_depth": 4.0
+      },
+      "penalties": [],
+      "matched_skills": [
+        "Agentic",
+        "Agents",
+        "Chatbot",
+        "Embeddings",
+        "FastAPI",
+        "Flask",
+        "GCP",
+        "HuggingFace",
+        "JavaScript/TypeScript",
+        "LLM",
+        "LangChain",
+        "LangGraph",
+        "LlamaIndex",
+        "Open-source LLMs",
+        "Python",
+        "RAG",
+        "Tool Calling",
+        "Vector DB"
+      ],
+      "rejection_reasons": [],
+      "project_summary": "Coding Nebula, Software developer: Built an AI-powered invoice analysis platform using Python, Flask, OCR, RAG, and Weaviate, enabling semantic retrieval and conversational querying across PDF and image invoices with Ollama and Hugging Face models.",
+      "evidence": [
+        "Built an AI-powered invoice analysis platform using Python, Flask, OCR, RAG, and Weaviate, enabling semantic retrieval and conversational querying across PDF and image invoices with Ollama and Hugging Face models.",
+        "Built an AI system that generates website templates from text prompts, using RAG (LangChain, LlamaIndex, Qwen3-Embedding-0.6B) for context-aware retrieval and asynchronous Flask APIs for real-time generation."
+      ],
+      "github": {
+        "username": "vaibhavw1",
+        "profile_url": "https://github.com/vaibhavw1",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449804"
+      },
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+      "strengths": [
+        "AI project 'Coding Nebula, Software developer' uses Embeddings, LangChain, LlamaIndex, RAG, Vector DB with retrieval, data processing",
+        "FastAPI used in project/experience work",
+        "Python used across multiple projects/roles",
+        "Non-trivial engineering signals: testing, caching, observability, concurrency"
+      ],
+      "concerns": [
+        "No evaluation/metrics evidence in the AI project",
+        "Limited PostgreSQL evidence",
+        "Limited Redis evidence",
+        "No Docker/deployment evidence",
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
+      "jd_similarity": 0.049,
+      "llm_status": "disabled",
+      "warnings": []
+    },
+    {
+      "rank": 14,
+      "candidate_name": "Vivek Chimnani",
+      "file": "candidate_44.pdf",
+      "email": "vivekchimnani4231@gmail.com",
+      "eligible": true,
+      "total_score": 58.5,
+      "score_breakdown": {
+        "ai_project_depth": 14.013742591764206,
+        "python_backend": 30.0,
+        "cloud_fullstack": 11.5,
+        "github": 0.0,
+        "engineering_depth": 3.0
+      },
+      "penalties": [],
+      "matched_skills": [
+        "AWS",
+        "CI/CD",
+        "Claude/Anthropic",
+        "Docker",
+        "FastAPI",
+        "JavaScript/TypeScript",
+        "LLM",
+        "LangGraph",
+        "MySQL/SQLite/SQL",
+        "Next.js",
+        "Node.js",
+        "PostgreSQL",
+        "Python",
+        "React",
+        "Redis"
+      ],
+      "rejection_reasons": [],
+      "project_summary": "AI Research Copilot (LangGraph): Built a production-style AI research assistant using React, FastAPI, LangGraph, and LLM APIs.",
+      "evidence": [
+        "Built a production-style AI research assistant using React, FastAPI, LangGraph, and LLM APIs.",
+        "Designed a multi-node workflow with planning, research, analysis, quality checks, and report generation using shared graph state and conditional routing."
+      ],
+      "github": {
+        "username": "Vivekk-11",
+        "profile_url": "https://github.com/Vivekk-11",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791448382"
+      },
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+      "strengths": [
+        "AI project 'AI Research Copilot (LangGraph)' uses LangGraph, LLM with orchestration state",
+        "FastAPI used in project/experience work",
+        "Python used across multiple projects/roles",
+        "Containerised/cloud deployment experience",
+        "Non-trivial engineering signals: architecture, observability, concurrency"
+      ],
+      "concerns": [
+        "No evaluation/metrics evidence in the AI project",
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
+      "jd_similarity": 0.046,
+      "llm_status": "disabled",
+      "warnings": []
+    },
+    {
+      "rank": 15,
       "candidate_name": "Priyanshu Kumar",
       "file": "candidate_16.pdf",
       "email": "krpriyanshu2805@gmail.com",
       "eligible": true,
-      "total_score": 60.9,
+      "total_score": 58.4,
       "score_breakdown": {
         "ai_project_depth": 25.422160081735534,
         "python_backend": 26.0,
         "cloud_fullstack": 4.0,
-        "github": 2.5,
+        "github": 0.0,
         "engineering_depth": 3.0
       },
       "penalties": [],
@@ -1160,17 +1107,17 @@
       "github": {
         "username": "pkr2805",
         "profile_url": "https://github.com/pkr2805",
-        "status": "ok",
-        "activity_score": 1.5,
-        "repo_score": 1.0,
-        "score": 2.5,
-        "summary": "Last push 2026-03-01; 2 maintained repos (0 Python/AI-relevant)",
-        "maintained_repos": 2,
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
         "relevant_repos": 0,
-        "last_push": "2026-03-01",
-        "detail": null
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791448382"
       },
-      "github_summary": "Last push 2026-03-01; 2 maintained repos (0 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'PR Sentinel – AI' uses LangGraph, MCP, Tool Calling, LLM with orchestration state, tools",
         "FastAPI used in project/experience work",
@@ -1181,9 +1128,78 @@
         "No evaluation/metrics evidence in the AI project",
         "Limited Redis evidence",
         "No Docker/deployment evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.086,
+      "llm_status": "disabled",
+      "warnings": []
+    },
+    {
+      "rank": 16,
+      "candidate_name": "Aditi Kala",
+      "file": "candidate_37.pdf",
+      "email": "aditi25.kala@gmail.com",
+      "eligible": true,
+      "total_score": 55.0,
+      "score_breakdown": {
+        "ai_project_depth": 20.02631972411303,
+        "python_backend": 21.0,
+        "cloud_fullstack": 12.0,
+        "github": 0.0,
+        "engineering_depth": 2.0
+      },
+      "penalties": [],
+      "matched_skills": [
+        "Agents",
+        "Chatbot",
+        "Docker",
+        "FastAPI",
+        "Flask",
+        "GCP",
+        "Gemini",
+        "Java",
+        "LLM",
+        "ML/DL",
+        "MySQL/SQLite/SQL",
+        "Next.js",
+        "Node.js",
+        "PostgreSQL",
+        "PyTorch",
+        "Python",
+        "React",
+        "TensorFlow/Keras"
+      ],
+      "rejection_reasons": [],
+      "project_summary": "Software Engineer Intern: Software Engineer Intern June 2025 - Present | AI Assistant Pune | – Built an automated agent QA framework with scripted and LLM-to-LLM test modes and an LLM scoring engine, | cutting manual validation time by 60%. | –…",
+      "evidence": [
+        "Software Engineer Intern June 2025 - Present | AI Assistant Pune | – Built an automated agent QA framework with scripted and LLM-to-LLM test modes and an LLM scoring engine, | cutting manual validation time by 60%. | –…"
+      ],
+      "github": {
+        "username": "why-aditi",
+        "profile_url": "https://github.com/why-aditi",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791448382"
+      },
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+      "strengths": [
+        "AI project 'Software Engineer Intern' uses Agents, Chatbot, Gemini, LLM with orchestration state, evaluation, data processing",
+        "FastAPI used in project/experience work",
+        "Containerised/cloud deployment experience"
+      ],
+      "concerns": [
+        "Limited PostgreSQL evidence",
+        "Limited Redis evidence",
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
+      "jd_similarity": 0.032,
       "llm_status": "disabled",
       "warnings": []
     },
@@ -1193,12 +1209,12 @@
       "file": "candidate_47.pdf",
       "email": "kirnaregal7@gmail.com",
       "eligible": true,
-      "total_score": 60.6,
+      "total_score": 54.6,
       "score_breakdown": {
         "ai_project_depth": 26.05003158313726,
         "python_backend": 20.5,
         "cloud_fullstack": 6.0,
-        "github": 6.0,
+        "github": 0.0,
         "engineering_depth": 2.0
       },
       "penalties": [],
@@ -1235,17 +1251,17 @@
       "github": {
         "username": "kiran-naregal",
         "profile_url": "https://github.com/kiran-naregal",
-        "status": "ok",
-        "activity_score": 4.0,
-        "repo_score": 2.0,
-        "score": 6.0,
-        "summary": "Last push 2026-08-18; 1 maintained repos (1 Python/AI-relevant)",
-        "maintained_repos": 1,
-        "relevant_repos": 1,
-        "last_push": "2026-08-18",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449823"
       },
-      "github_summary": "Last push 2026-08-18; 1 maintained repos (1 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'AI Engineer' uses Agentic, Agents, LangChain, RAG, Claude/Anthropic with retrieval, orchestration state, evaluation, data processing",
         "FastAPI used in project/experience work",
@@ -1254,7 +1270,8 @@
       "concerns": [
         "Limited PostgreSQL evidence",
         "Limited Redis evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.041,
       "llm_status": "disabled",
@@ -1266,12 +1283,12 @@
       "file": "candidate_26.pdf",
       "email": "thejeshwaarp@gmail.com",
       "eligible": true,
-      "total_score": 54.4,
+      "total_score": 49.4,
       "score_breakdown": {
         "ai_project_depth": 17.374188009577793,
         "python_backend": 25.0,
         "cloud_fullstack": 10.0,
-        "github": 5.0,
+        "github": 0.0,
         "engineering_depth": 2.0
       },
       "penalties": [
@@ -1310,17 +1327,17 @@
       "github": {
         "username": "tejaharleys",
         "profile_url": "https://github.com/tejaharleys",
-        "status": "ok",
-        "activity_score": 3.0,
-        "repo_score": 2.0,
-        "score": 5.0,
-        "summary": "Last push 2026-05-23; 1 maintained repos (1 Python/AI-relevant)",
-        "maintained_repos": 1,
-        "relevant_repos": 1,
-        "last_push": "2026-05-23",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449748"
       },
-      "github_summary": "Last push 2026-05-23; 1 maintained repos (1 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Assembled advanced cartographic pipelines rendering 10+ map layer types with ve…' uses NLP with retrieval, data processing",
         "Python used across multiple projects/roles"
@@ -1329,7 +1346,8 @@
         "No evaluation/metrics evidence in the AI project",
         "Limited Redis evidence",
         "No testing evidence",
-        "Tutorial-style / no ownership evidence in best AI project"
+        "Tutorial-style / no ownership evidence in best AI project",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.026,
       "llm_status": "disabled",
@@ -1341,12 +1359,12 @@
       "file": "candidate_12.pdf",
       "email": "subhnavadiya@gmail.com",
       "eligible": true,
-      "total_score": 52.8,
+      "total_score": 47.3,
       "score_breakdown": {
         "ai_project_depth": 21.80595585512178,
         "python_backend": 22.5,
         "cloud_fullstack": 3.0,
-        "github": 5.5,
+        "github": 0.0,
         "engineering_depth": 0.0
       },
       "penalties": [],
@@ -1386,17 +1404,17 @@
       "github": {
         "username": "Shubhanshu-356",
         "profile_url": "https://github.com/Shubhanshu-356",
-        "status": "ok",
-        "activity_score": 1.5,
-        "repo_score": 4.0,
-        "score": 5.5,
-        "summary": "Last push 2026-01-27; 4 maintained repos (2 Python/AI-relevant)",
-        "maintained_repos": 4,
-        "relevant_repos": 2,
-        "last_push": "2026-01-27",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449748"
       },
-      "github_summary": "Last push 2026-01-27; 4 maintained repos (2 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Artificial Intelligence Intern — F22 Labs' uses Agents, LangChain, LlamaIndex, RAG, Vector DB with retrieval, data processing",
         "FastAPI used in project/experience work",
@@ -1407,7 +1425,8 @@
         "Limited PostgreSQL evidence",
         "Limited Redis evidence",
         "No Docker/deployment evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.061,
       "llm_status": "disabled",
@@ -1415,16 +1434,74 @@
     },
     {
       "rank": 20,
+      "candidate_name": "P.V. Jayavardhana Sai",
+      "file": "candidate_19.pdf",
+      "email": "pvjayavardhan6@gmail.com",
+      "eligible": true,
+      "total_score": 47.0,
+      "score_breakdown": {
+        "ai_project_depth": 24.481790536238822,
+        "python_backend": 16.5,
+        "cloud_fullstack": 4.0,
+        "github": 0.0,
+        "engineering_depth": 2.0
+      },
+      "penalties": [],
+      "matched_skills": [
+        "LLM",
+        "ML/DL",
+        "MySQL/SQLite/SQL",
+        "Open-source LLMs",
+        "Python",
+        "RAG",
+        "React"
+      ],
+      "rejection_reasons": [],
+      "project_summary": "(Mar–May: Workshop AI Assistant – RAG (LLM System): Designed and deployed a Retrieval-Augmented Generation (RAG) system over private vehicle service data using Ollama and Python. Built multi-step pipelines for query processing, c…",
+      "evidence": [
+        "Workshop AI Assistant – RAG (LLM System): Designed and deployed a Retrieval-Augmented Generation (RAG) system over private vehicle service data using Ollama and Python. Built multi-step pipelines for query processing, c…"
+      ],
+      "github": {
+        "username": "jayavard123",
+        "profile_url": "https://github.com/jayavard123",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449804"
+      },
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+      "strengths": [
+        "AI project '(Mar–May' uses RAG, LLM, Open-source LLMs with retrieval, orchestration state, evaluation, data processing",
+        "Python used across multiple projects/roles"
+      ],
+      "concerns": [
+        "Limited PostgreSQL evidence",
+        "Limited Redis evidence",
+        "No Docker/deployment evidence",
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
+      "jd_similarity": 0.022,
+      "llm_status": "disabled",
+      "warnings": []
+    },
+    {
+      "rank": 21,
       "candidate_name": "Vivek Shekhawat",
       "file": "candidate_39.pdf",
       "email": "vivekshekhawatofficial1592002@gmail.com",
       "eligible": true,
-      "total_score": 52.1,
+      "total_score": 46.1,
       "score_breakdown": {
         "ai_project_depth": 21.581443034153015,
         "python_backend": 18.0,
         "cloud_fullstack": 3.5,
-        "github": 6.0,
+        "github": 0.0,
         "engineering_depth": 3.0
       },
       "penalties": [],
@@ -1456,17 +1533,17 @@
       "github": {
         "username": "Vivek1592002",
         "profile_url": "https://github.com/Vivek1592002",
-        "status": "ok",
-        "activity_score": 4.0,
-        "repo_score": 2.0,
-        "score": 6.0,
-        "summary": "Last push 2026-08-14; 1 maintained repos (1 Python/AI-relevant)",
-        "maintained_repos": 1,
-        "relevant_repos": 1,
-        "last_push": "2026-08-14",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449804"
       },
-      "github_summary": "Last push 2026-08-14; 1 maintained repos (1 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Auriga IT Jaipur, India' uses Embeddings, RAG, Vector DB, Open-source LLMs with retrieval, data processing",
         "Non-trivial engineering signals: observability, concurrency, failure_handling"
@@ -1475,24 +1552,87 @@
         "No evaluation/metrics evidence in the AI project",
         "Limited Redis evidence",
         "No Docker/deployment evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.056,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 21,
+      "rank": 22,
+      "candidate_name": "Annisha S",
+      "file": "candidate_23.pdf",
+      "email": "annishasaravanan83@gmail.com",
+      "eligible": true,
+      "total_score": 42.1,
+      "score_breakdown": {
+        "ai_project_depth": 10.552126793995594,
+        "python_backend": 25.0,
+        "cloud_fullstack": 6.5,
+        "github": 0.0,
+        "engineering_depth": 0.0
+      },
+      "penalties": [],
+      "matched_skills": [
+        "Azure",
+        "FastAPI",
+        "LLM",
+        "LangGraph",
+        "MySQL/SQLite/SQL",
+        "Open-source LLMs",
+        "OpenAI",
+        "PostgreSQL",
+        "Python",
+        "React"
+      ],
+      "rejection_reasons": [],
+      "project_summary": "Python, React.js, FastAPI, REST APIs,: Python, React.js, FastAPI, REST APIs, | PostgreSQL, MongoDB, LangGraph, AI-FIRST CRM SYSTEMS USING LANGGRAPH AND LLM | OpenAI APIs, LLM(basic), AI Integration, • Designed an AI-driven CRM system converting natural langu…",
+      "evidence": [
+        "Python, React.js, FastAPI, REST APIs, | PostgreSQL, MongoDB, LangGraph, AI-FIRST CRM SYSTEMS USING LANGGRAPH AND LLM | OpenAI APIs, LLM(basic), AI Integration, • Designed an AI-driven CRM system converting natural langu…"
+      ],
+      "github": {
+        "username": "annisha-atdoor",
+        "profile_url": "https://github.com/annisha-atdoor",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791448382"
+      },
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+      "strengths": [
+        "AI project 'Python, React.js, FastAPI, REST APIs,' uses LangGraph, LLM, Open-source LLMs, OpenAI with orchestration state",
+        "FastAPI used in project/experience work",
+        "Python used across multiple projects/roles"
+      ],
+      "concerns": [
+        "No evaluation/metrics evidence in the AI project",
+        "Limited Redis evidence",
+        "No Docker/deployment evidence",
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
+      ],
+      "jd_similarity": 0.034,
+      "llm_status": "disabled",
+      "warnings": []
+    },
+    {
+      "rank": 23,
       "candidate_name": "Abhinav Mishra",
       "file": "candidate_10.pdf",
       "email": "abhinavmishra3322@gmail.com",
       "eligible": true,
-      "total_score": 50.6,
+      "total_score": 40.6,
       "score_breakdown": {
         "ai_project_depth": 12.086332228316333,
         "python_backend": 26.0,
         "cloud_fullstack": 7.5,
-        "github": 10.0,
+        "github": 0.0,
         "engineering_depth": 5.0
       },
       "penalties": [
@@ -1529,17 +1669,17 @@
       "github": {
         "username": "AbhinavMishra32",
         "profile_url": "https://github.com/AbhinavMishra32",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-10-07; 21 maintained repos (5 Python/AI-relevant)",
-        "maintained_repos": 21,
-        "relevant_repos": 5,
-        "last_push": "2026-10-07",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449748"
       },
-      "github_summary": "Last push 2026-10-07; 21 maintained repos (5 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'EXPERT BUDDY (Ed-tech platform used by 200,000+ students) expertbuddy.com' uses Agentic, LLM",
         "FastAPI used in project/experience work",
@@ -1549,81 +1689,25 @@
       "concerns": [
         "No evaluation/metrics evidence in the AI project",
         "No Docker/deployment evidence",
-        "Thin LLM wrapper: best AI project shows no retrieval, orchestration/state, tool use, evaluation or data-processing"
+        "Thin LLM wrapper: best AI project shows no retrieval, orchestration/state, tool use, evaluation or data-processing",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.038,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 22,
-      "candidate_name": "P.V. Jayavardhana Sai",
-      "file": "candidate_19.pdf",
-      "email": "pvjayavardhan6@gmail.com",
-      "eligible": true,
-      "total_score": 49.5,
-      "score_breakdown": {
-        "ai_project_depth": 24.481790536238822,
-        "python_backend": 16.5,
-        "cloud_fullstack": 4.0,
-        "github": 2.5,
-        "engineering_depth": 2.0
-      },
-      "penalties": [],
-      "matched_skills": [
-        "LLM",
-        "ML/DL",
-        "MySQL/SQLite/SQL",
-        "Open-source LLMs",
-        "Python",
-        "RAG",
-        "React"
-      ],
-      "rejection_reasons": [],
-      "project_summary": "(Mar–May: Workshop AI Assistant – RAG (LLM System): Designed and deployed a Retrieval-Augmented Generation (RAG) system over private vehicle service data using Ollama and Python. Built multi-step pipelines for query processing, c…",
-      "evidence": [
-        "Workshop AI Assistant – RAG (LLM System): Designed and deployed a Retrieval-Augmented Generation (RAG) system over private vehicle service data using Ollama and Python. Built multi-step pipelines for query processing, c…"
-      ],
-      "github": {
-        "username": "jayavard123",
-        "profile_url": "https://github.com/jayavard123",
-        "status": "ok",
-        "activity_score": 1.5,
-        "repo_score": 1.0,
-        "score": 2.5,
-        "summary": "Last push 2025-10-26; 1 maintained repos (0 Python/AI-relevant)",
-        "maintained_repos": 1,
-        "relevant_repos": 0,
-        "last_push": "2025-10-26",
-        "detail": null
-      },
-      "github_summary": "Last push 2025-10-26; 1 maintained repos (0 Python/AI-relevant)",
-      "strengths": [
-        "AI project '(Mar–May' uses RAG, LLM, Open-source LLMs with retrieval, orchestration state, evaluation, data processing",
-        "Python used across multiple projects/roles"
-      ],
-      "concerns": [
-        "Limited PostgreSQL evidence",
-        "Limited Redis evidence",
-        "No Docker/deployment evidence",
-        "No testing evidence"
-      ],
-      "jd_similarity": 0.022,
-      "llm_status": "disabled",
-      "warnings": []
-    },
-    {
-      "rank": 23,
+      "rank": 24,
       "candidate_name": "Vikram Madhyasta",
       "file": "candidate_29.pdf",
       "email": "vikrammadyasta@gmail.com",
       "eligible": true,
-      "total_score": 49.5,
+      "total_score": 39.5,
       "score_breakdown": {
         "ai_project_depth": 10.029634579349214,
         "python_backend": 20.5,
         "cloud_fullstack": 11.0,
-        "github": 10.0,
+        "github": 0.0,
         "engineering_depth": 3.0
       },
       "penalties": [
@@ -1652,17 +1736,17 @@
       "github": {
         "username": "vikrammadhyasta",
         "profile_url": "https://github.com/vikrammadhyasta",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-10-03; 10 maintained repos (3 Python/AI-relevant)",
-        "maintained_repos": 10,
-        "relevant_repos": 3,
-        "last_push": "2026-10-03",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791448382"
       },
-      "github_summary": "Last push 2026-10-03; 10 maintained repos (3 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Cloud-Native CI/CD & GitOps Platform with AI-Based Jenkins Log Analysis' uses OpenAI with data processing",
         "Python used across multiple projects/roles",
@@ -1674,24 +1758,25 @@
         "Limited PostgreSQL evidence",
         "Limited Redis evidence",
         "No testing evidence",
-        "Shallow AI project: single depth signal and no agent/RAG framework"
+        "Shallow AI project: single depth signal and no agent/RAG framework",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.009,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 24,
+      "rank": 25,
       "candidate_name": "Pavani A",
       "file": "candidate_38.pdf",
       "email": "pavani10112004@gmail.com",
       "eligible": true,
-      "total_score": 49.0,
+      "total_score": 39.0,
       "score_breakdown": {
         "ai_project_depth": 10.034794223456784,
         "python_backend": 27.0,
         "cloud_fullstack": 7.0,
-        "github": 10.0,
+        "github": 0.0,
         "engineering_depth": 0.0
       },
       "penalties": [
@@ -1728,17 +1813,17 @@
       "github": {
         "username": "Pavani-A",
         "profile_url": "https://github.com/Pavani-A",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-10-07; 12 maintained repos (5 Python/AI-relevant)",
-        "maintained_repos": 12,
-        "relevant_repos": 5,
-        "last_push": "2026-10-07",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449823"
       },
-      "github_summary": "Last push 2026-10-07; 12 maintained repos (5 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Software Engineer Intern' uses LLM with data processing",
         "FastAPI used in project/experience work",
@@ -1748,24 +1833,25 @@
         "No evaluation/metrics evidence in the AI project",
         "Limited Redis evidence",
         "No testing evidence",
-        "Shallow AI project: single depth signal and no agent/RAG framework"
+        "Shallow AI project: single depth signal and no agent/RAG framework",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.035,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 25,
+      "rank": 26,
       "candidate_name": "Dornipadu Karthika Chaitrika",
       "file": "candidate_24.pdf",
       "email": "dornipadukarthi@gmail.com",
       "eligible": true,
-      "total_score": 46.0,
+      "total_score": 38.0,
       "score_breakdown": {
         "ai_project_depth": 20.00788668096603,
         "python_backend": 18.0,
         "cloud_fullstack": 0.0,
-        "github": 8.0,
+        "github": 0.0,
         "engineering_depth": 0.0
       },
       "penalties": [],
@@ -1791,17 +1877,17 @@
       "github": {
         "username": "KarthikaDornipadu",
         "profile_url": "https://github.com/KarthikaDornipadu",
-        "status": "ok",
-        "activity_score": 3.0,
-        "repo_score": 5.0,
-        "score": 8.0,
-        "summary": "Last push 2026-06-06; 11 maintained repos (3 Python/AI-relevant)",
-        "maintained_repos": 11,
-        "relevant_repos": 3,
-        "last_push": "2026-06-06",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449804"
       },
-      "github_summary": "Last push 2026-06-06; 11 maintained repos (3 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Detecting Hate Speech in tweets with advanced ML Techniques' uses NLP with retrieval, evaluation, data processing",
         "Python used across multiple projects/roles"
@@ -1810,24 +1896,25 @@
         "Limited PostgreSQL evidence",
         "Limited Redis evidence",
         "No Docker/deployment evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.038,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 26,
+      "rank": 27,
       "candidate_name": "Krishan Kant",
       "file": "candidate_09.pdf",
       "email": "krishankantptu@gmail.com",
       "eligible": true,
-      "total_score": 44.8,
+      "total_score": 35.8,
       "score_breakdown": {
         "ai_project_depth": 13.764531941710636,
         "python_backend": 12.0,
         "cloud_fullstack": 6.0,
-        "github": 9.0,
+        "github": 0.0,
         "engineering_depth": 4.0
       },
       "penalties": [],
@@ -1857,17 +1944,17 @@
       "github": {
         "username": "krishankantgit",
         "profile_url": "https://github.com/krishankantgit",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 4.0,
-        "score": 9.0,
-        "summary": "Last push 2026-09-12; 10 maintained repos (1 Python/AI-relevant)",
-        "maintained_repos": 10,
-        "relevant_repos": 1,
-        "last_push": "2026-09-12",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791448382"
       },
-      "github_summary": "Last push 2026-09-12; 10 maintained repos (1 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'AI-Powered Resume Screener [GitHub]' uses LLM, OpenAI with retrieval, data processing",
         "Non-trivial engineering signals: architecture, observability, concurrency, failure_handling"
@@ -1875,85 +1962,87 @@
       "concerns": [
         "No evaluation/metrics evidence in the AI project",
         "Limited Redis evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.048,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 27,
-      "candidate_name": "Annisha S",
-      "file": "candidate_23.pdf",
-      "email": "annishasaravanan83@gmail.com",
+      "rank": 28,
+      "candidate_name": "Manoj Kumar K R",
+      "file": "candidate_21.pdf",
+      "email": "manojkumar.k.r0904@gmail.com",
       "eligible": true,
-      "total_score": 42.1,
+      "total_score": 34.8,
       "score_breakdown": {
-        "ai_project_depth": 10.552126793995594,
-        "python_backend": 25.0,
-        "cloud_fullstack": 6.5,
+        "ai_project_depth": 17.341708802233114,
+        "python_backend": 13.5,
+        "cloud_fullstack": 4.0,
         "github": 0.0,
         "engineering_depth": 0.0
       },
       "penalties": [],
       "matched_skills": [
-        "Azure",
-        "FastAPI",
-        "LLM",
-        "LangGraph",
+        "Flask",
+        "HuggingFace",
+        "Java",
+        "ML/DL",
         "MySQL/SQLite/SQL",
-        "Open-source LLMs",
-        "OpenAI",
-        "PostgreSQL",
+        "Pandas/NumPy",
+        "PyTorch",
         "Python",
-        "React"
+        "React",
+        "Scikit-learn",
+        "Streamlit/Gradio",
+        "TensorFlow/Keras"
       ],
       "rejection_reasons": [],
-      "project_summary": "Python, React.js, FastAPI, REST APIs,: Python, React.js, FastAPI, REST APIs, | PostgreSQL, MongoDB, LangGraph, AI-FIRST CRM SYSTEMS USING LANGGRAPH AND LLM | OpenAI APIs, LLM(basic), AI Integration, • Designed an AI-driven CRM system converting natural langu…",
+      "project_summary": "Image-Based Goat and Sheep Classification using Deep: Image-Based Goat and Sheep Classification using Deep Learning 2026 | Python | TensorFlow | Keras | OpenCV | Hugging Face | Developed an image classification system to distinguish between goats and sheep using Deep | Lea…",
       "evidence": [
-        "Python, React.js, FastAPI, REST APIs, | PostgreSQL, MongoDB, LangGraph, AI-FIRST CRM SYSTEMS USING LANGGRAPH AND LLM | OpenAI APIs, LLM(basic), AI Integration, • Designed an AI-driven CRM system converting natural langu…"
+        "Image-Based Goat and Sheep Classification using Deep Learning 2026 | Python | TensorFlow | Keras | OpenCV | Hugging Face | Developed an image classification system to distinguish between goats and sheep using Deep | Lea…"
       ],
       "github": {
-        "username": "annisha-atdoor",
-        "profile_url": "https://github.com/annisha-atdoor",
-        "status": "ok",
+        "username": "ManojKumar-8055",
+        "profile_url": "https://github.com/ManojKumar-8055",
+        "status": "rate_limited",
         "activity_score": 0.0,
         "repo_score": 0.0,
         "score": 0.0,
-        "summary": "Last push 2024-07-16; 0 maintained repos (0 Python/AI-relevant)",
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
         "maintained_repos": 0,
         "relevant_repos": 0,
-        "last_push": "2024-07-16",
-        "detail": null
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449748"
       },
-      "github_summary": "Last push 2024-07-16; 0 maintained repos (0 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
-        "AI project 'Python, React.js, FastAPI, REST APIs,' uses LangGraph, LLM, Open-source LLMs, OpenAI with orchestration state",
-        "FastAPI used in project/experience work",
-        "Python used across multiple projects/roles"
+        "AI project 'Image-Based Goat and Sheep Classification using Deep' uses HuggingFace with retrieval, evaluation, data processing"
       ],
       "concerns": [
-        "No evaluation/metrics evidence in the AI project",
+        "Limited PostgreSQL evidence",
         "Limited Redis evidence",
         "No Docker/deployment evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
-      "jd_similarity": 0.034,
+      "jd_similarity": 0.02,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 28,
+      "rank": 29,
       "candidate_name": "M Sai Kushith",
       "file": "candidate_06.pdf",
       "email": "msaikushith718@gmail.com",
       "eligible": true,
-      "total_score": 37.6,
+      "total_score": 33.6,
       "score_breakdown": {
         "ai_project_depth": 11.563366146590457,
         "python_backend": 22.0,
         "cloud_fullstack": 0.0,
-        "github": 4.0,
+        "github": 0.0,
         "engineering_depth": 0.0
       },
       "penalties": [],
@@ -1983,17 +2072,17 @@
       "github": {
         "username": "SaiKushith",
         "profile_url": "https://github.com/SaiKushith",
-        "status": "ok",
-        "activity_score": 3.0,
-        "repo_score": 1.0,
-        "score": 4.0,
-        "summary": "Last push 2026-06-06; 1 maintained repos (0 Python/AI-relevant)",
-        "maintained_repos": 1,
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
         "relevant_repos": 0,
-        "last_push": "2026-06-06",
-        "detail": null
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791447216"
       },
-      "github_summary": "Last push 2026-06-06; 1 maintained repos (0 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'Software Developer' uses LLM with evaluation, data processing",
         "Python used across multiple projects/roles"
@@ -2002,24 +2091,25 @@
         "Limited PostgreSQL evidence",
         "Limited Redis evidence",
         "No Docker/deployment evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.033,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 29,
+      "rank": 30,
       "candidate_name": "Saif Ali Nagori",
       "file": "candidate_36.pdf",
       "email": "saifalinagori78@gmail.com",
       "eligible": true,
-      "total_score": 37.4,
+      "total_score": 27.4,
       "score_breakdown": {
         "ai_project_depth": 10.878337340177744,
         "python_backend": 17.5,
         "cloud_fullstack": 4.0,
-        "github": 10.0,
+        "github": 0.0,
         "engineering_depth": 0.0
       },
       "penalties": [
@@ -2049,17 +2139,17 @@
       "github": {
         "username": "Nagorisaifali",
         "profile_url": "https://github.com/Nagorisaifali",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-09-11; 14 maintained repos (3 Python/AI-relevant)",
-        "maintained_repos": 14,
-        "relevant_repos": 3,
-        "last_push": "2026-09-11",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791447216"
       },
-      "github_summary": "Last push 2026-09-11; 14 maintained repos (3 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'The system leverages LLM/RAG techniques to answer queries on EV types, charging…' uses RAG, LLM with retrieval"
       ],
@@ -2069,85 +2159,96 @@
         "Limited Redis evidence",
         "No Docker/deployment evidence",
         "No testing evidence",
-        "Tutorial-style / no ownership evidence in best AI project"
+        "Tutorial-style / no ownership evidence in best AI project",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.017,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 30,
-      "candidate_name": "Manoj Kumar K R",
-      "file": "candidate_21.pdf",
-      "email": "manojkumar.k.r0904@gmail.com",
+      "rank": 31,
+      "candidate_name": "Atul Kumar",
+      "file": "candidate_25.pdf",
+      "email": "atulofficial02@gmail.com",
       "eligible": true,
-      "total_score": 37.3,
+      "total_score": 25.1,
       "score_breakdown": {
-        "ai_project_depth": 17.341708802233114,
+        "ai_project_depth": 10.6,
         "python_backend": 13.5,
-        "cloud_fullstack": 4.0,
-        "github": 2.5,
+        "cloud_fullstack": 6.0,
+        "github": 0.0,
         "engineering_depth": 0.0
       },
-      "penalties": [],
+      "penalties": [
+        {
+          "reason": "Shallow AI project: single depth signal and no agent/RAG framework",
+          "points": 5.0
+        }
+      ],
       "matched_skills": [
+        "Chatbot",
         "Flask",
-        "HuggingFace",
-        "Java",
+        "GCP",
+        "Gemini",
+        "LLM",
         "ML/DL",
         "MySQL/SQLite/SQL",
+        "NLP",
+        "Open-source LLMs",
         "Pandas/NumPy",
-        "PyTorch",
         "Python",
-        "React",
         "Scikit-learn",
-        "Streamlit/Gradio",
-        "TensorFlow/Keras"
+        "Streamlit/Gradio"
       ],
       "rejection_reasons": [],
-      "project_summary": "Image-Based Goat and Sheep Classification using Deep: Image-Based Goat and Sheep Classification using Deep Learning 2026 | Python | TensorFlow | Keras | OpenCV | Hugging Face | Developed an image classification system to distinguish between goats and sheep using Deep | Lea…",
+      "project_summary": "Project: Quick-Text App: Built a text summarization web application and REST API using Streamlit and Flask. Engineered a dual-model NLP pipeline featuring extractive summarization via LexRank (Sumy) and abstractive summarization…",
       "evidence": [
-        "Image-Based Goat and Sheep Classification using Deep Learning 2026 | Python | TensorFlow | Keras | OpenCV | Hugging Face | Developed an image classification system to distinguish between goats and sheep using Deep | Lea…"
+        "Quick-Text App: Built a text summarization web application and REST API using Streamlit and Flask. Engineered a dual-model NLP pipeline featuring extractive summarization via LexRank (Sumy) and abstractive summarization…",
+        "Chatbot Using Google Gemini API: Designed and implemented a chatbot using Google’s Gemini API to handle natural language queries effectively. Built a responsive web application with Streamlit, enabling real-time convers…"
       ],
       "github": {
-        "username": "ManojKumar-8055",
-        "profile_url": "https://github.com/ManojKumar-8055",
-        "status": "ok",
-        "activity_score": 1.5,
-        "repo_score": 1.0,
-        "score": 2.5,
-        "summary": "Last push 2025-12-04; 1 maintained repos (0 Python/AI-relevant)",
-        "maintained_repos": 1,
+        "username": "atulkumar2025",
+        "profile_url": "https://github.com/atulkumar2025",
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
         "relevant_repos": 0,
-        "last_push": "2025-12-04",
-        "detail": null
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449823"
       },
-      "github_summary": "Last push 2025-12-04; 1 maintained repos (0 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
-        "AI project 'Image-Based Goat and Sheep Classification using Deep' uses HuggingFace with retrieval, evaluation, data processing"
+        "AI project 'Project' uses Chatbot, Gemini, LLM, NLP, Open-source LLMs with data processing"
       ],
       "concerns": [
+        "No evaluation/metrics evidence in the AI project",
         "Limited PostgreSQL evidence",
         "Limited Redis evidence",
         "No Docker/deployment evidence",
-        "No testing evidence"
+        "No testing evidence",
+        "Shallow AI project: single depth signal and no agent/RAG framework",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
-      "jd_similarity": 0.02,
+      "jd_similarity": 0.015,
       "llm_status": "disabled",
       "warnings": []
     },
     {
-      "rank": 31,
+      "rank": 32,
       "candidate_name": "Aswin Raj R",
       "file": "candidate_49.pdf",
       "email": "aswinrajr12@gmail.com",
       "eligible": true,
-      "total_score": 34.1,
+      "total_score": 24.1,
       "score_breakdown": {
         "ai_project_depth": 12.635514162341464,
         "python_backend": 18.5,
         "cloud_fullstack": 3.0,
-        "github": 10.0,
+        "github": 0.0,
         "engineering_depth": 0.0
       },
       "penalties": [
@@ -2182,17 +2283,17 @@
       "github": {
         "username": "Aswinx0",
         "profile_url": "https://github.com/Aswinx0",
-        "status": "ok",
-        "activity_score": 5.0,
-        "repo_score": 5.0,
-        "score": 10.0,
-        "summary": "Last push 2026-09-17; 11 maintained repos (4 Python/AI-relevant)",
-        "maintained_repos": 11,
-        "relevant_repos": 4,
-        "last_push": "2026-09-17",
-        "detail": null
+        "status": "rate_limited",
+        "activity_score": 0.0,
+        "repo_score": 0.0,
+        "score": 0.0,
+        "summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
+        "maintained_repos": 0,
+        "relevant_repos": 0,
+        "last_push": null,
+        "detail": "HTTP 403, resets at 1791449804"
       },
-      "github_summary": "Last push 2026-09-17; 11 maintained repos (4 Python/AI-relevant)",
+      "github_summary": "GitHub API rate-limited; set GITHUB_TOKEN to raise limit",
       "strengths": [
         "AI project 'AI Car Rental Platform' uses LangChain, RAG, Chatbot, LLM",
         "Python used across multiple projects/roles"
@@ -2203,79 +2304,10 @@
         "Limited Redis evidence",
         "No Docker/deployment evidence",
         "No testing evidence",
-        "Thin LLM wrapper: best AI project shows no retrieval, orchestration/state, tool use, evaluation or data-processing"
+        "Thin LLM wrapper: best AI project shows no retrieval, orchestration/state, tool use, evaluation or data-processing",
+        "GitHub enrichment unavailable (rate_limited)"
       ],
       "jd_similarity": 0.033,
-      "llm_status": "disabled",
-      "warnings": []
-    },
-    {
-      "rank": 32,
-      "candidate_name": "Atul Kumar",
-      "file": "candidate_25.pdf",
-      "email": "atulofficial02@gmail.com",
-      "eligible": true,
-      "total_score": 34.1,
-      "score_breakdown": {
-        "ai_project_depth": 10.6,
-        "python_backend": 13.5,
-        "cloud_fullstack": 6.0,
-        "github": 9.0,
-        "engineering_depth": 0.0
-      },
-      "penalties": [
-        {
-          "reason": "Shallow AI project: single depth signal and no agent/RAG framework",
-          "points": 5.0
-        }
-      ],
-      "matched_skills": [
-        "Chatbot",
-        "Flask",
-        "GCP",
-        "Gemini",
-        "LLM",
-        "ML/DL",
-        "MySQL/SQLite/SQL",
-        "NLP",
-        "Open-source LLMs",
-        "Pandas/NumPy",
-        "Python",
-        "Scikit-learn",
-        "Streamlit/Gradio"
-      ],
-      "rejection_reasons": [],
-      "project_summary": "Project: Quick-Text App: Built a text summarization web application and REST API using Streamlit and Flask. Engineered a dual-model NLP pipeline featuring extractive summarization via LexRank (Sumy) and abstractive summarization…",
-      "evidence": [
-        "Quick-Text App: Built a text summarization web application and REST API using Streamlit and Flask. Engineered a dual-model NLP pipeline featuring extractive summarization via LexRank (Sumy) and abstractive summarization…",
-        "Chatbot Using Google Gemini API: Designed and implemented a chatbot using Google’s Gemini API to handle natural language queries effectively. Built a responsive web application with Streamlit, enabling real-time convers…"
-      ],
-      "github": {
-        "username": "atulkumar2025",
-        "profile_url": "https://github.com/atulkumar2025",
-        "status": "ok",
-        "activity_score": 4.0,
-        "repo_score": 5.0,
-        "score": 9.0,
-        "summary": "Last push 2026-08-02; 8 maintained repos (4 Python/AI-relevant)",
-        "maintained_repos": 8,
-        "relevant_repos": 4,
-        "last_push": "2026-08-02",
-        "detail": null
-      },
-      "github_summary": "Last push 2026-08-02; 8 maintained repos (4 Python/AI-relevant)",
-      "strengths": [
-        "AI project 'Project' uses Chatbot, Gemini, LLM, NLP, Open-source LLMs with data processing"
-      ],
-      "concerns": [
-        "No evaluation/metrics evidence in the AI project",
-        "Limited PostgreSQL evidence",
-        "Limited Redis evidence",
-        "No Docker/deployment evidence",
-        "No testing evidence",
-        "Shallow AI project: single depth signal and no agent/RAG framework"
-      ],
-      "jd_similarity": 0.015,
       "llm_status": "disabled",
       "warnings": []
     },

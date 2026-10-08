@@ -1,272 +1,221 @@
-# Phase 2: System Architecture & Technical Design Document
+# Phase 2: System Architecture & Technical Design Document (Audited & Hardened)
 
 ## 1. System Overview
 
-The restructured Resume Screening Backend delivers an asynchronous, concurrent, rate-limited, and memory-bounded pipeline. It enforces strict separation of concerns across layers while preserving the deterministic domain scoring logic without any modifications.
+The Resume Screening Platform is engineered as a two-tier dual-purpose architecture:
+1. **The Graded Core Submission (`submission/`)**: A clean, zero-dependency CLI + minimal ASGI service satisfying the take-home brief ("no database, no deployment, don't over-engineer").
+2. **The Advanced Platform Layer (`src/screener/`)**: A high-concurrency, lock-striped, rate-limited, and memory-bounded enterprise platform designed for technical architecture walkthroughs.
 
 ```
-                           +------------------------+
-                           |  External API Clients  |
-                           +-----------+------------+
-                                       |
-                                HTTP Requests
-                                       |
-               +-----------------------v-----------------------+
-               |                 FastAPI Layer                 |
-               |                                               |
-               |  +-----------------------------------------+  |
-               |  |          RateLimitMiddleware            |  |
-               |  |  (Token Bucket per client_id in LRU)    |  |
-               |  +--------------------+--------------------+  |
-               +-----------------------|-----------------------+
-                                       | 202 Accepted (job_id)
-               +-----------------------v-----------------------+
-               |                  JobService                   |
-               |  - Bounded asyncio.Queue (maxsize=50)         |
-               |  - Backpressure: 503 + Retry-After if full     |
-               |  - Bounded In-Memory Job Store (LRU 1k jobs)  |
-               +-----------------------+-----------------------+
-                                       |
-                                 Worker Runtime
-                                       |
-       +-------------------------------+-------------------------------+
-       |                               |                               |
-       v                               v                               v
-+--------------------+      +--------------------+      +--------------------+
-| ProcessPool (CPU)  |      |   asyncio (I/O)    |      |  ThreadPool (Disk) |
-| - PDF/DOCX Parsing |      | - GitHub API       |      | - Disk persistence |
-| - Text Extraction  |      | - LLM API Calls    |      | - Atomic snapshots |
-| - TF-IDF Matrix    |      |   (httpx async)    |      |   (os.replace)     |
-+---------+----------+      +---------+----------+      +---------+----------+
-          |                           |                           |
-          +-------------+             |             +-------------+
-                        |             |             |
-+-----------------------v-------------v-------------v------------------------+
-|                          ShardedLRUCache Layer                             |
-|  - 16 Independent Shards: hash(key) % 16, Lock Striping                    |
-|  - Single-Flight Coordinator (Stampede / Thundering-Herd Suppression)       |
-|  - Hand-Crafted Doubly Linked List + Hash Map (O(1) get/put/evict)         |
-|  - TTL Min-Heap with Version Check & Lazy Expiration                       |
-|  - Segmented LRU (SLRU): Probation (20%) + Protected (80%)                |
-|                                                                            |
-|   [ParseCache]               [GitHubCache]                 [LLMCache]      |
-|   key=sha256(content)        key=username, TTL=24h         key=sha256(...) |
-+-------------------------------------+--------------------------------------+
-                                      |
-                         +------------v------------+
-                         |       MemoryGuard       |
-                         |  (Daemon Thread: 5s)    |
-                         |  - RSS + Cache Bytes    |
-                         |  - High Watermark (80%) |
-                         |  - Low Watermark (60%)  |
-                         |  - Hysteresis Eviction  |
-                         +-------------------------+
++---------------------------------------------------------------------------------------+
+|                                    CLIENT INGRESS                                     |
+|              CLI (main.py)              OR             FastAPI (HTTP / JSON)          |
++---------------------------------------------------------------------------------------+
+                                           |
+                                           v
++---------------------------------------------------------------------------------------+
+|                               RATE LIMITING INGRESS (A10)                             |
+|  - Inbound TokenBucket: per client IP / API token                                     |
+|  - Headers: RFC 6585 (X-RateLimit-Limit, Remaining, Reset)                             |
+|  - Upstream OutboundLimiter: Adaptive epoch-based pause on x-ratelimit-reset            |
++---------------------------------------------------------------------------------------+
+                                           |
+                                           v
++---------------------------------------------------------------------------------------+
+|                                JOB ORCHESTRATION LAYER                                |
+|  - Bounded asyncio.Queue (backpressure: 503 + Retry-After: 30)                        |
+|  - GIL-Aware WorkerRuntime:                                                           |
+|      * ProcessPoolExecutor: CPU-bound parsing & TF-IDF vectorization                  |
+|      * asyncio: Non-blocking HTTP I/O (GitHub API)                                    |
+|      * ThreadPoolExecutor: Disk I/O & atomic persistence                             |
++---------------------------------------------------------------------------------------+
+                                           |
+                                           v
++---------------------------------------------------------------------------------------+
+|                           CONCURRENT CACHING LAYER (A2, A3)                           |
+|  - ShardedLRUCache (16 Shards, Lock Striping, O(1) DLL + Hash)                        |
+|  - SingleFlight: Strict 2-phase coordination (Zero locks held during loader I/O)      |
+|  - Segmented LRU (Probationary 20% / Protected 80%) + Min-Heap TTL                    |
++---------------------------------------------------------------------------------------+
+                                           |
+                                           v
++---------------------------------------------------------------------------------------+
+|                            RUNTIME MEMORY GUARD (A4)                                  |
+|  - Cross-platform RSS tracking (Linux /proc/statm, macOS Darwin bytes, Windows)       |
+|  - Hysteresis Eviction: High Watermark (80%) -> Low Watermark (60%)                   |
++---------------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 2. Sequence Diagrams (Mermaid)
+## 2. Hardened Concurrency & Lock-Free Loader Architecture (A2, A3)
 
-### 2.1 Single-Flight Cache Lookup and Loader Flow
-Prevents cache stampedes when multiple concurrent requests encounter a cache miss on the same key.
+### 2.1 Single-Flight Lock-Free Coordination Pattern
+Previous implementations risked deadlocks or lock corruption by releasing and re-acquiring locks inside context managers (`with self._lock:`). The hardened design implements a strict **3-Phase Registration and Notification Lifecycle**:
+
+```
+[Phase 1: Registration under Mutex]
+  Thread acquires SingleFlight._lock
+  If key in calls:
+      Extract call.event
+      Release SingleFlight._lock
+      -> Go to Phase 2 (Wait outside lock)
+  Else:
+      Create new Call(event)
+      Register in calls[key]
+      Release SingleFlight._lock
+      -> Go to Phase 3 (Execute Loader outside lock)
+
+[Phase 2: Wait Outside Lock]
+  Call event.wait() (NO LOCKS HELD)
+  Re-raise call.err or return call.val
+
+[Phase 3: Loader Execution & Notification]
+  val = loader() (NO LOCKS HELD across network/disk I/O)
+  call.val = val
+  call.event.set() (Unblocks all waiting Phase 2 threads)
+  Thread re-acquires SingleFlight._lock
+  Remove calls.pop(key)
+  Release SingleFlight._lock
+  Return val
+```
+
+### 2.2 Strict Lock Hierarchy & Deadlock Freedom (A2)
+
+To mathematically prove deadlock freedom, locks must be acquired strictly in ascending rank:
+
+$$\text{Rank 1: SingleFlight Mutex} \implies \text{Rank 2: Shard Mutex } S_i \implies \text{Rank 3: TokenBucket Mutex}$$
+
+**Invariants:**
+1. **No Multiple Shard Acquisition**: A thread is structurally forbidden from acquiring $S_j$ while holding $S_i$ ($i \ne j$).
+2. **Lock-Free Loader Invariant**: When `get_or_load(key, loader)` runs, `loader()` is strictly executed when holding **0** shard locks and **0** SingleFlight mutexes.
+3. **Sequential Traversal Invariant**: When `MemoryGuard` or `sweep_expired()` traverses shards, locks are acquired and released strictly sequentially:
+   $$\text{acquire}(S_0) \to \text{evict} \to \text{release}(S_0) \to \text{acquire}(S_1) \to \text{evict} \to \text{release}(S_1) \dots$$
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Thread1 as Client Thread A
-    actor Thread2 as Client Thread B
-    participant SF as SingleFlight
-    participant Shard as ShardedLRUCache
-    participant Upstream as External Loader (GitHub / LLM)
+    actor T1 as Thread 1 (Cache Miss)
+    actor T2 as Thread 2 (Concurrent Key)
+    participant Shard as ShardedLRUCache Shard Lock
+    participant SF as SingleFlight Mutex
+    participant Upstream as External Loader / I/O
 
-    Thread1->>Shard: get(key)
-    Note over Shard: Acquire Shard Lock
-    Shard-->>Thread1: Cache Miss
-    Note over Shard: Release Shard Lock
+    Note over T1,Shard: Step 1: Fast-path check
+    T1->>Shard: acquire(S_idx)
+    Shard-->>T1: Cache Miss
+    T1->>Shard: release(S_idx)
 
-    Thread1->>SF: execute(key, loader)
-    Note over SF: Acquire SingleFlight Lock
-    Note over SF: Register in_flight[key] = Future/Event
-    Note over SF: Release SingleFlight Lock
+    Note over T1,SF: Step 2: Register in SingleFlight
+    T1->>SF: acquire(SF_lock)
+    Note over SF: Register in_flight[key]
+    T1->>SF: release(SF_lock)
 
-    Thread2->>Shard: get(key)
-    Note over Shard: Acquire Shard Lock
-    Shard-->>Thread2: Cache Miss
-    Note over Shard: Release Shard Lock
+    Note over T2,SF: Concurrent caller registers
+    T2->>SF: acquire(SF_lock)
+    Note over SF: Existing call found
+    T2->>SF: release(SF_lock)
+    Note over T2: Await event.wait() (NO LOCK HELD)
 
-    Thread2->>SF: execute(key, loader)
-    Note over SF: Acquire SingleFlight Lock
-    Note over SF: Key found in in_flight!
-    Note over SF: Release SingleFlight Lock
-    Note over Thread2: Thread B awaits existing Future
+    Note over T1,Upstream: Step 3: Execute Loader Outside Locks
+    T1->>Upstream: execute loader() (ZERO LOCKS HELD!)
+    Upstream-->>T1: Return loaded data
 
-    Note over Thread1: Thread A executes loader (Lock NOT held!)
-    Thread1->>Upstream: Call External Service / Parse
-    Upstream-->>Thread1: Loaded Value V
+    Note over T1,Shard: Step 4: Cache Result
+    T1->>Shard: acquire(S_idx)
+    Note over Shard: Insert into cache
+    T1->>Shard: release(S_idx)
 
-    Thread1->>Shard: put(key, V)
-    Note over Shard: Acquire Shard Lock
-    Note over Shard: Insert into MRU head
-    Note over Shard: Release Shard Lock
-
-    Thread1->>SF: complete(key, V)
-    Note over SF: Set Future result = V
-    Note over SF: Remove key from in_flight
-    SF-->>Thread2: Wake up Thread B with V
-    Thread1-->>Thread1: Return V
-    Thread2-->>Thread2: Return V
+    Note over T1,SF: Step 5: Notify and Cleanup
+    T1->>T2: event.set() (Wakes Thread 2)
+    T1->>SF: acquire(SF_lock)
+    Note over SF: pop(key)
+    T1->>SF: release(SF_lock)
+    T1-->>T1: Return result
+    T2-->>T2: Return result
 ```
 
 ---
 
-### 2.2 Token Bucket Inbound Rate Limiting Middleware
-Enforces per-client quotas and injects RFC-standard rate limit response headers.
+## 3. Cross-Platform Memory Management (A4)
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Client as API Client
-    participant MW as RateLimitMiddleware
-    participant KL as KeyedLimiter (LRU)
-    participant TB as TokenBucket (Client ID)
-    participant App as FastAPI Route Handler
+`MemoryGuard` relies on accurate Resident Set Size (RSS) telemetry to trigger its $80\% \to 60\%$ hysteresis eviction cycle. To guarantee fault-tolerant execution across host operating systems:
 
-    Client->>MW: HTTP Request (POST /screen)
-    MW->>MW: Extract Identity (X-API-Key or IP)
+```python
+def get_process_rss_mb() -> float:
+    # 1. psutil (most accurate cross-platform if installed)
+    if psutil is not None:
+        try:
+            return float(psutil.Process().memory_info().rss) / (1024.0 * 1024.0)
+        except Exception:
+            pass
 
-    MW->>KL: get_or_create(client_id, route_type)
-    Note over KL: Lookup in bounded LRU cache
-    KL-->>MW: TokenBucket instance
+    # 2. Linux /proc virtual filesystem
+    if sys.platform.startswith("linux"):
+        try:
+            with open("/proc/self/statm", "r") as f:
+                pages = int(f.read().split()[1])
+            return float(pages * os.sysconf("SC_PAGE_SIZE")) / (1024.0 * 1024.0)
+        except Exception:
+            pass
 
-    MW->>TB: try_acquire(cost=1.0)
-    Note over TB: now = clock()
-    Note over TB: delta = now - last_refill
-    Note over TB: tokens = min(cap, tokens + delta * rate)
-    Note over TB: last_refill = now
+    # 3. POSIX resource module with platform-specific units
+    if resource is not None:
+        try:
+            raw_rss = float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+            if sys.platform == "darwin":
+                # macOS Darwin returns ru_maxrss in bytes
+                return raw_rss / (1024.0 * 1024.0)
+            else:
+                # Linux/BSD returns ru_maxrss in KiB
+                return raw_rss / 1024.0
+        except Exception:
+            pass
 
-    alt tokens >= cost
-        Note over TB: tokens = tokens - cost
-        TB-->>MW: Allowed (remaining_tokens, reset_time)
-        MW->>App: Forward Request
-        App-->>MW: HTTP Response (202 Accepted)
-        Note over MW: Inject X-RateLimit-* headers
-        MW-->>Client: HTTP 202 Accepted + RateLimit Headers
-    else tokens < cost
-        Note over TB: retry_after = (cost - tokens) / rate
-        TB-->>MW: Denied (retry_after, remaining_tokens, reset_time)
-        Note over MW: Build 429 Payload
-        MW-->>Client: HTTP 429 Too Many Requests<br/>(Retry-After, X-RateLimit-*)
-    end
+    # 4. Fallback safe return
+    return 0.0
 ```
 
 ---
 
-### 2.3 Runtime Memory Eviction with Hysteresis (MemoryGuard)
-Monitors system RSS and aggregate cache memory, executing batched evictions down to the low watermark to avoid cache thrashing.
+## 4. Adaptive Upstream Quota Management (A10)
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant MG as MemoryGuard (Daemon)
-    participant OS as OS / Process (psutil / resource)
-    participant Caches as [ParseCache, GitHubCache, LLMCache]
-    participant Metrics as MetricsCollector
+GitHub API allows only 60 unauthenticated requests/hour, emitting HTTP 403/429 with `x-ratelimit-remaining: 0` and `x-ratelimit-reset: <epoch_seconds>`.
 
-    loop Every period_s (default 5 seconds)
-        MG->>OS: Read Process RSS (MB)
-        MG->>Caches: Query sum(total_bytes)
-        Caches-->>MG: Total Cached Bytes B
+### Design:
+1. **Epoch Reset Math**:
+   $$\text{wait\_s} = \max(0.0, \text{float}(\text{reset\_ts}) - \text{time.time()})$$
+2. **Adaptive Pausing**: When quota is exhausted, `OutboundLimiter` sets `_paused_until = now + wait_s`, pausing subsequent requests while allowing currently enqueued batch operations to complete with `status="rate_limited"` instead of crashing.
+3. **Graceful Pipeline Continuation**: If the rate limit is hit, candidate scoring proceeds with available local features; GitHub score receives a neutral default with `rate_limited` audit detail.
 
-        alt B > High Watermark (0.80 * max_bytes) OR RSS > soft_limit
-            Note over MG: Memory pressure detected!
-            MG->>Metrics: Increment watermark_breaches_total
-            Note over MG: target_bytes = Low Watermark (0.60 * max_bytes)
-            Note over MG: evict_needed = B - target_bytes
+---
 
-            loop Over Each Registered Cache
-                MG->>Caches: evict_to(proportional_target)
-                Note over Caches: Acquire Shard Lock sequentially
-                Note over Caches: Evict from tail.prev until target reached
-                Note over Caches: Release Shard Lock
-            end
+## 5. Dual Deliverable Packaging Strategy (A9)
 
-            MG->>Metrics: Record evictions & new byte count
-            Note over MG: Headroom buffer (20%) established!
-        else Memory within safe limits
-            Note over MG: Safe, no action required
-        end
-        Note over MG: Sleep period_s
-    end
+The project will be structured into two cleanly separated packages:
+
+### Deliverable A: Lean Graded Submission (`submission/`)
+Meets the take-home brief without over-engineering:
 ```
-
----
-
-### 2.4 Graceful Shutdown Sequence
-Drains the in-flight job queue and executes atomic cache persistence to prevent corrupt snapshots.
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Admin as OS / Docker (SIGTERM / SIGINT)
-    participant App as FastAPI Lifespan / App
-    participant JS as JobService
-    participant Workers as Worker Runtime
-    participant Caches as ShardedLRUCache
-    participant Disk as Filesystem
-
-    Admin->>App: Send SIGTERM
-    Note over App: Trigger shutdown lifecycle hook
-    App->>JS: stop_accepting_jobs()
-    Note over JS: Ingress closed; new POST /screen returns 503
-
-    App->>JS: drain_queue(timeout=shutdown_timeout_s)
-    Note over JS: Wait for actively running jobs to complete
-    JS->>Workers: join_active_tasks()
-    Workers-->>JS: All active tasks finished
-
-    App->>Caches: snapshot_to_disk()
-    Note over Caches: Serialize state to temporary file (cache.json.tmp)
-    Caches->>Disk: write_text(json_data) + fsync()
-    Note over Caches: Atomic replacement
-    Caches->>Disk: os.replace(cache.json.tmp, cache.json)
-    Disk-->>Caches: Replacement complete
-
-    App->>Workers: shutdown(wait=True)
-    Note over Workers: Shutdown ProcessPool and ThreadPool
-    App-->>Admin: Process terminates cleanly (Exit 0)
+submission/
+├── main.py                  # Standalone CLI entrypoint
+├── api.py                   # Minimal FastAPI (POST /screen, GET /results)
+├── config.py, models.py     # Configuration and Pydantic schemas
+├── parse.py, eligibility.py # Domain modules (byte-for-byte identical)
+├── scoring.py, tfidf.py, lexicon.py
+├── github_enrich.py         # Simple bounded enrichment
+├── requirements.txt         # Minimal deps: fastapi, uvicorn, httpx, pydantic, pytest
+├── results.json             # Golden baseline output
+├── README.md                # Graded README: Setup, Run, Design Decisions, If I Had More Time
+└── tests/                   # 20+ focused unit tests for parsing, eligibility, scoring, API
 ```
+- **Reviewer Guarantee**: Can be run in `< 5 minutes` from a clean virtual environment without any platform-layer dependencies.
 
----
-
-## 3. Component Complexity & Thread-Safety Guarantees
-
-| Module / Class | Public Method | Time Complexity | Space Complexity | Thread-Safety Guarantee | Locking Mechanism |
-|---|---|---|---|---|---|
-| `LRUCache` | `get(key)` | $O(1)$ amortized | $O(1)$ | Thread-safe when accessed via shard | Hand-crafted DLL pointer update; lazy TTL check |
-| `LRUCache` | `put(key, val, ttl)` | $O(1)$ amortized | $O(1)$ | Thread-safe when accessed via shard | Unlinks LRU tail when full; version increment |
-| `LRUCache` | `evict_to(target)` | $O(K)$ where $K$ = evicted nodes | $O(1)$ | Thread-safe when accessed via shard | Repeated tail unlinking until within target |
-| `ShardedLRUCache` | `get(key)` | $O(1)$ | $O(1)$ | **Fully Thread-Safe** | Per-shard `threading.Lock` (`hash(key) % N`) |
-| `ShardedLRUCache` | `put(key, val, ttl)` | $O(1)$ amortized | $O(1)$ | **Fully Thread-Safe** | Per-shard `threading.Lock` |
-| `ShardedLRUCache` | `get_or_load(key, loader)` | $O(1)$ cache hit<br>$O(\text{loader})$ on miss | $O(1)$ | **Fully Thread-Safe** | Lock released before calling loader; SingleFlight coordination |
-| `SingleFlight` | `execute(key, loader)` | $O(1)$ sync overhead | $O(1)$ | **Fully Thread-Safe** | Internal `threading.Lock` protecting `in_flight` dict; callers wait on `Future` |
-| `TokenBucket` | `try_acquire(cost)` | $O(1)$ | $O(1)$ | **Thread-Safe** | `threading.Lock` protecting token calculation |
-| `KeyedLimiter` | `check(key, cost)` | $O(1)$ amortized | $O(\text{max\_keys})$ | **Thread-Safe** | Internal `LRUCache` synchronization |
-| `OutboundLimiter` | `acquire()` | $O(1)$ amortized | $O(1)$ | **Async Thread-Safe** | `asyncio.Semaphore` + TokenBucket + pause event |
-| `OutboundLimiter` | `observe(headers, status)` | $O(1)$ | $O(1)$ | **Async Thread-Safe** | Parses headers, sets pause event on reset |
-| `MemoryGuard` | `run_cycle()` | $O(N)$ where $N$ = shards | $O(1)$ | **Thread-Safe** | Iterates over shards sequentially; acquires 1 lock at a time |
-| `JobService` | `submit(job)` | $O(1)$ | $O(1)$ | **Async Thread-Safe** | Thread-safe bounded `asyncio.Queue` |
-| `JobService` | `get_job(id)` | $O(1)$ | $O(1)$ | **Async Thread-Safe** | Synchronized in-memory job store |
-
----
-
-## 4. Lock Ordering Contract
-
-To formally guarantee deadlock freedom across the application, the following lock-acquisition invariants are strictly enforced:
-
-1. **Hierarchy Level 1: Global Managers**: `SingleFlight` internal mutex. Never held while acquiring shard locks.
-2. **Hierarchy Level 2: Shard Mutexes**: Shard locks $S_0, S_1, \dots, S_{N-1}$.
-   - **Rule**: A thread may hold **at most ONE** shard lock $S_i$ at any point in time.
-   - **Rule**: If a thread holds $S_i$, it is structurally forbidden from attempting to acquire $S_j$ ($j \ne i$).
-   - **Rule**: Shard locks must be released before calling any external loader, disk write, or network call.
-3. **Hierarchy Level 3: Token Bucket Mutexes**: Individual token bucket locks. Independent of cache shard locks.
-4. **Cross-Shard Sequential Traversal**: When `MemoryGuard` or `stats()` computes totals across all shards, it acquires and releases shard locks sequentially ($S_0 \to \text{release} \to S_1 \to \text{release} \dots$), never holding multiple locks simultaneously.
+### Deliverable B: Advanced Platform Layer (`root` & `src/screener/`)
+Showcase for senior technical walkthrough:
+- Lock-striped `ShardedLRUCache`
+- Two-tier GIL-aware `WorkerRuntime`
+- Hysteresis `MemoryGuard` daemon
+- Bounded backpressure `JobService`
+- 73+ concurrency, property, and microbenchmark tests
+- Comprehensive documentation (`docs/design.md`, `docs/runbook.md`, `docs/DEFENSE.md`, `docs/adr/`)

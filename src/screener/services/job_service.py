@@ -58,12 +58,18 @@ class JobService:
         self._accepting: bool = True
         self._consumer_task: asyncio.Task | None = None
         self._current_job_id: str | None = None
+        self.latest_result: dict | None = None
 
     def start_consumer(self) -> None:
         if self._consumer_task is None or self._consumer_task.done():
-            self._consumer_task = asyncio.create_task(self._consumer_loop())
+            try:
+                loop = asyncio.get_running_loop()
+                self._consumer_task = loop.create_task(self._consumer_loop())
+            except RuntimeError:
+                pass
 
     async def submit_job(self, input_dir: str, use_github: bool, settings: Settings) -> str:
+        self.start_consumer()
         if not self._accepting:
             raise ServiceUnavailableError("Service is shutting down; not accepting new jobs")
 
@@ -124,6 +130,7 @@ class JobService:
                 record.status = "done"
                 record.completed_at = time.time()
                 record.result = result
+                self.latest_result = result
             except Exception as e:
                 log.exception("Job %s failed: %s", job_id, e)
                 record.status = "failed"

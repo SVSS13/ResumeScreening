@@ -42,6 +42,8 @@ def test_job_service_lifecycle(sample_resumes_dir):
         results = service.get_results(job_id)
         assert results is not None
         assert results["summary"]["total_files"] == 2
+        assert service.latest_result is not None
+        assert service.latest_result["summary"]["total_files"] == 2
 
         await service.drain()
 

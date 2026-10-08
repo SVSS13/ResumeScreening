@@ -1,0 +1,13 @@
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.cache/
+.env
+output/
+submission/output/
+*.tmp
+.DS_Store

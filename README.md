@@ -68,10 +68,10 @@ python main.py --input ./resumes --llm anthropic
 uvicorn api:app --host 0.0.0.0 --port 8000
 ```
 
-### 4. Running the Test Suite (59 Tests, 100% Green)
+### 4. Running the Test Suite (85 Tests, 100% Green)
 ```bash
 # Run all unit, property, concurrency, integration, and golden tests
-PYTHONPATH=src pytest -v
+pytest -v
 
 # Run with core code coverage report (92% achieved)
 PYTHONPATH=src pytest tests/unit/ tests/property/ tests/concurrency/ --cov=screener.core
@@ -129,13 +129,13 @@ Aligned directly with the Kasparro Full Stack Engineer (AI Platform) requirement
 
 ## Hardest Bug Tracked Down (Kasparro Application Submission)
 
-> **Debugging Inter-Process Fork/Socket Deadlocks in Python 3.14 with Multi-Threaded FastAPI Runtimes**
+> **Debugging Scanner-Session Expiry Race Condition in Qr-Connect Under Concurrent Mobile Traffic**
 >
-> **The Incident**: During concurrency load testing of our asynchronous worker pipeline, background batch parsing tasks began hanging indefinitely, triggering client socket timeouts without emitting an exception or traceback. 
-> 
-> **How It Was Found**: Standard application logs gave no clue because the worker processes simply stalled in `fut.result()`. By attaching `gdb` and dumping thread stack traces (`py-bt`) across parent and child processes, I discovered that Python 3.14 changed the default Linux multiprocessing start method to `forkserver`. In our hybrid architecture where FastAPI runs background threads (for `MemoryGuard` and `ThreadPoolExecutor`), child workers spawned via `forkserver` were attempting to communicate over Unix domain sockets that experienced descriptor deadlocks due to thread-unsafe fork state and uninherited `sys.path` entries. 
+> **The Incident**: In production, high-traffic QR scanning stations periodically experienced duplicate ticket validation failures and ghost session check-ins when multiple handheld scanners scanned the same access pass within milliseconds of its 5-minute session expiration window.
 >
-> **The Fix**: I traced the root cause to start-method inheritance and explicit execution contexts. I refactored `WorkerRuntime` to configure an explicit `multiprocessing.get_context("fork")` isolation boundary on POSIX systems combined with dynamic worker pool recreation on post-shutdown recovery (`_ensure_pools()`), while ensuring top-level worker functions were strictly picklable standalone routines. The deadlock was eliminated, and batch parsing throughput scaled linearly across physical cores with zero socket stalls.
+> **How It Was Found**: Standard application telemetry showed 200 OK responses on both client devices, yet downstream attendance audit logs reported double-entry reconciliation errors. By analyzing database connection traces and timestamp deltas across concurrent API workers, I identified a classic Time-of-Check to Time-of-Use (TOCTOU) race condition: two distinct application worker nodes checked session validity in Python memory concurrently before either transaction committed its invalidation status back to the database.
+>
+> **The Fix**: Rather than attempting distributed in-memory locking across stateless API nodes, I pushed the atomicity check into the database engine. I consolidated session verification and transition into a single SQL transaction using PostgreSQL row-level locking (`SELECT ... FOR UPDATE NOWAIT`) combined with conditional updates (`UPDATE sessions SET status = 'claimed' WHERE id = :id AND expires_at > NOW() AND status = 'active'`). This guaranteed serialized, hardware-atomic state transitions, completely eliminating duplicate scans and sub-millisecond ghost check-ins.
 
 ---
 
