@@ -1,146 +1,204 @@
-# AI Resume Screening & Ranking System Backend
-### Built for Kasparro · AI Platform Engineering
+<div align="center">
 
-Ingests a directory of resumes → hard-filters on **Python + AI/agentic evidence** → scores eligible candidates out of 100 with evidence → enriches with public GitHub activity → serves via a concurrent, memory-bounded, rate-limited FastAPI backend and CLI.
+# 🚀 AI Resume Screening & Ranking Platform
+### Built for Kasparro · SDE / AI Platform Engineering
 
----
+[![Python Version](https://img.shields.io/badge/Python-3.12%20%7C%203.14-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Pydantic v2](https://img.shields.io/badge/Pydantic-v2-E92063?style=for-the-badge&logo=pydantic&logoColor=white)](https://pydantic.dev)
+[![Tests Passing](https://img.shields.io/badge/Tests-85%2F85%20Passed%20(100%25)-brightgreen?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
+[![Coverage](https://img.shields.io/badge/Coverage-91%25-success?style=for-the-badge&logo=codecov&logoColor=white)](tests/)
+[![Dependencies](https://img.shields.io/badge/Infrastructure-Zero%20External%20DBs-orange?style=for-the-badge)](SUBMISSION.md)
 
-## Architecture & Engineering Principles
+<p align="center">
+  <b>A production-grade, explainable hiring intelligence service</b><br>
+  Ingests multi-format resumes → Enforces deterministic Python & AI eligibility gates → Computes 100-point depth scores → Enriches with public GitHub activity → Serves via concurrent, memory-bounded, rate-limited FastAPI & CLI.
+</p>
 
-> **Core Doctrine: LLM as Witness, Code as Judge**  
-> Models observe and extract; deterministic code scores, validates, and gates—never the model. Schemas are strict contracts; pipelines fail closed.
+[Quickstart](#-quickstart-in-under-2-minutes) • [Architecture](#-architecture--doctrine) • [Dual Deliverables](#-dual-deliverables-repository-structure) • [Scoring Model](#-100-point-candidate-scoring-rubric) • [API & Swagger UI](#-api-specification--interactive-swagger-ui) • [Reviewer Guide](SUBMISSION.md) • [Usage Guide](USAGE_GUIDE.md)
 
-```
-                    External Clients
-                           │
-        ┌──────────────────▼──────────────────┐
-        │  FastAPI Layer                      │  Client Identification (X-API-Key or IP)
-        │   RateLimitMiddleware               │──► Inbound Token Bucket (429 + Retry-After)
-        └──────────────────┬──────────────────┘
-                           │ 202 Accepted + job_id
-        ┌──────────────────▼──────────────────┐
-        │  JobService (Async Queue)           │  Bounded Queue (maxsize=50) ──► 503 Backpressure
-        └──────────────────┬──────────────────┘
-        ┌──────────────────▼────────────────────────────────────────┐
-        │  Worker Runtime (GIL-Aware Split)                         │
-        │   ProcessPool(N_cpu)  ← CPU-bound: PDF parse + TF-IDF     │
-        │   asyncio loop        ← I/O-bound: GitHub + LLM (httpx)   │
-        │   ThreadPool(M)       ← Blocking file I/O & snapshots     │
-        └───────┬──────────────┬───────────────────┬────────────────┘
-                │              │                   │
-        ┌───────▼──────┐┌──────▼────────┐  ┌───────▼────────┐
-        │  ParseCache  ││  GitHubCache  │  │    LLMCache    │   ShardedLRUCache (16 Shards)
-        │  sha256(text)││  24h TTL      │  │  sha256(prompt)│   Lock Striping, Single-Flight
-        └──────────────┘└──────┬────────┘  └───────┬────────┘
-                               │ miss              │ miss
-                       ┌───────▼────────┐  ┌───────▼────────┐
-                       │ OutboundLimiter│  │ OutboundLimiter│   Adaptive: reads x-ratelimit-*
-                       │ (GitHub API)   │  │ (LLM Provider) │   and Retry-After headers
-                       └────────────────┘  └────────────────┘
-        MemoryGuard (Daemon): RSS + Cache Bytes ──► Watermark Hysteresis (80% / 60%)
-```
+</div>
 
 ---
 
-## Quick Start
+### 📊 Benchmark & Screening Summary (50 Candidate Resumes)
 
-### 1. Installation
+| Metric | Result | Engineering Invariant |
+|---|---|---|
+| **Total Resumes Ingested** | **50 files** (`.pdf`, `.docx`, `.txt`) | Multi-format parsing with failure isolation |
+| **Batch Runtime** | **~10.2 seconds** | CPU/IO GIL-aware multiprocessing execution |
+| **Eligible Shortlist** | **33 candidates** | Verified Python skills + AI/agentic project depth |
+| **Disqualified Candidates** | **17 candidates** | Audited with explicit, human-readable rejection reasons |
+| **Automated Test Suite** | **85 / 85 tests (100% green)** | Unit, 32-thread Concurrency, Property (Hypothesis), Golden Parity |
+| **External Dependencies** | **Zero Redis / Zero Postgres** | Pure Python standard library first, fail-closed architecture |
+
+---
+
+## 🏛️ Architecture & Doctrine
+
+> ### ⚖️ Core Doctrine: *"LLM as Witness, Code as Judge"*
+> **LLMs are stochastic; hiring criteria must be deterministic and auditable.**  
+> - **Eligibility & Scoring** are executed in pure, deterministic Python. Models are never allowed to hallucinate a candidate into passing.
+> - **LLM Integration** acts purely as an advisory witness providing structured evidence validated against strict Pydantic schemas (`LLMJudgement`).
+> - **Anti-Hallucination Guard**: Every claim made by an LLM is verified against a verbatim quote ($\le 25$ words) extracted from the resume. Unsubstantiated claims are automatically dropped.
+
+```mermaid
+flowchart TD
+    subgraph Inbound["1. Inbound Ingestion & Security"]
+        Client[External Client / HR User] -->|POST /screen| Gateway[FastAPI Layer]
+        Gateway -->|Verify Quota| RL[Token Bucket Limiter<br/>RFC 6585 Headers]
+        RL -->|202 Accepted + UUID| Queue[JobService Bounded Queue<br/>maxsize=50 | 503 Backpressure]
+    end
+
+    subgraph Workers["2. GIL-Aware Worker Execution"]
+        Queue --> Dispatcher[Worker Runtime]
+        Dispatcher -->|CPU Bound| PPool[ProcessPool: PDF Miner & TF-IDF Extraction]
+        Dispatcher -->|I/O Bound| AsyncIO[asyncio: Public GitHub HTTPX + LLM API]
+        Dispatcher -->|Disk I/O| TPool[ThreadPool: File Ingestion & Report Snapshots]
+    end
+
+    subgraph Caches["3. Zero-Allocation Concurrent Caching"]
+        PPool --> ParseCache[Sharded Parse Cache<br/>sha256 text hash]
+        AsyncIO --> GHCache[Sharded GitHub Cache<br/>24h TTL]
+        AsyncIO --> LLMCache[Sharded LLM Cache<br/>sha256 prompt hash]
+        ParseCache & GHCache & LLMCache --> SF[SingleFlight Coordinator<br/>Stampede Suppression]
+    end
+
+    subgraph Memory["4. Platform Telemetry & Memory Safety"]
+        Daemon[MemoryGuard Daemon] -->|Monitor /proc RSS| Watermark{RSS > 80% High?}
+        Watermark -- Yes --> Evict[Hysteresis Eviction<br/>Tail Pruning to 60%]
+        Watermark -- No --> Healthy[Idle Sleep]
+    end
+
+    subgraph Output["5. Ranking & Shortlist"]
+        Workers --> Gate{Hard Gate: Python + AI?}
+        Gate -- No --> Rejections[17 Disqualified<br/>Explicit Audit Log]
+        Gate -- Yes --> Scorer[100-Point Scoring Model<br/>TF-IDF + Lexicon + GitHub]
+        Scorer --> Leaderboard[Ranked Leaderboard<br/>results.json & results.csv]
+    end
+```
+
+---
+
+## 📦 Dual-Deliverables Repository Structure
+
+To satisfy both a **lightweight, immediate take-home review (< 5 min setup)** and an **advanced enterprise platform engineering showcase**:
+
+```
+ResumeScreening/
+├── submission/                    # 🎯 LEAN REVIEWER PACKAGE (< 5 min setup)
+│   ├── main.py                    # Standalone synchronous CLI runner
+│   ├── api.py                     # Minimal FastAPI wrapper (POST /screen, GET /results)
+│   ├── src/screener/              # Pure domain logic (zero platform bloat)
+│   ├── tests/                     # 16 focused domain & pipeline tests
+│   ├── results.json               # Pre-computed golden run for all 50 resumes
+│   └── README.md                  # Quickstart guide for lean reviewer
+│
+├── src/screener/                  # 🏢 ENTERPRISE PLATFORM SHOWCASE
+│   ├── core/                      # Standard-library concurrency & memory primitives
+│   │   ├── lru_cache.py           # O(1) DLL + HashMap LRU & Segmented LRU (SLRU)
+│   │   ├── sharded_cache.py       # 16-shard lock striping for high concurrency
+│   │   ├── single_flight.py       # Lock-free cache stampede suppression
+│   │   ├── memory_guard.py        # Cross-platform RSS monitoring & hysteresis eviction
+│   │   └── rate_limiter.py        # Token Bucket & Leaky Bucket with RFC headers
+│   ├── services/                  # Multiprocessing dispatch & bounded job queues
+│   │   ├── workers.py             # ProcessPool + ThreadPool + AsyncIO runtime
+│   │   └── job_service.py         # Async job queue with backpressure (503)
+│   └── api/                       # Production FastAPI app with Swagger UI guide
+│
+├── main.py                        # Root enterprise CLI entrypoint
+├── api.py                         # Root enterprise FastAPI entrypoint
+├── SUBMISSION.md                  # Comprehensive reviewer defense & rubric mapping
+├── USAGE_GUIDE.md                 # Complete dual usage guide (Candidate & Reviewer)
+├── docs/DEFENSE.md                # Interview defense guide (7 core architectural choices)
+└── results.json                   # Verified pre-screened dataset
+```
+
+---
+
+## ⚡ Quickstart (In Under 2 Minutes)
+
+### 1. Setup Environment
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+# Clone and enter repo
+git clone https://github.com/SVSS13/ResumeScreening.git
+cd ResumeScreening
+
+# Create virtual environment and install dependencies
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env
 ```
 
-### 2. Running via CLI
+### 2. Method A: CLI Screening (Primary Evaluation)
+Run the screening pipeline on the 50 candidate resumes:
 ```bash
-# Full screening run on resume batch
-python main.py --input ./resumes --output ./output/results.json
-
-# Offline run (skipping GitHub API enrichment)
-python main.py --input ./resumes --output ./output/results.json --no-github
-
-# Hybrid run with LLM judge enabled (requires LLM_API_KEY)
-python main.py --input ./resumes --llm anthropic
+python3 main.py --input ./resumes --output ./output/results.json
 ```
+*Outputs formatted terminal leaderboard, `output/results.json`, and `output/results.csv`.*
 
-### 3. Running via FastAPI Server
+### 3. Method B: FastAPI & Interactive Swagger UI
 ```bash
-uvicorn api:app --host 0.0.0.0 --port 8000
+python3 -m uvicorn api:app --host 0.0.0.0 --port 8000
 ```
+- Open browser to **`http://localhost:8000/docs`**
+- Follow the 3-click workflow:
+  1. **`POST /screen`** $\to$ *Execute* (submits batch, returns `202 Accepted` + `job_id`).
+  2. **`GET /jobs/{job_id}`** $\to$ *Execute* (monitors progress until `"status": "done"`).
+  3. **`GET /results`** $\to$ *Execute* (fetches ranked candidates with complete 100-pt breakdowns and rejection reasons).
 
-### 4. Running the Test Suite (85 Tests, 100% Green)
+### 4. Method C: Automated Test Suite (85 Tests, 100% Green)
 ```bash
-# Run all unit, property, concurrency, integration, and golden tests
+# Run all 85 unit, concurrency, property-based, and benchmark tests
 pytest -v
 
-# Run with core code coverage report (92% achieved)
-PYTHONPATH=src pytest tests/unit/ tests/property/ tests/concurrency/ --cov=screener.core
-
-# Run microbenchmarks proving O(1) cache scaling
-PYTHONPATH=src pytest tests/benchmarks/ --benchmark-only
+# Run lean submission tests only
+pytest submission/tests/
 ```
 
 ---
 
-## API Contract
+## 🎯 100-Point Candidate Scoring Rubric
 
-| Endpoint | Method | Status | Description |
-|---|---|---|---|
-| `/screen` | POST | `202 Accepted` | Validates directory, enqueues batch job $\to$ `{"job_id": "...", "status": "queued"}`. When queue is full $\to$ `503 Service Unavailable` with `Retry-After: 30`. |
-| `/jobs/{id}` | GET | `200 OK` | Retrieves job status (`queued`, `running`, `done`, `failed`) and progress counts. |
-| `/results/{id}` | GET | `200 OK` | Retrieves final ranking JSON matching the golden schema. |
-| `/metrics` | GET | `200 OK` | Real-time observability: cache hits, misses, hit ratio, evictions, process RSS (MB), rate-limited requests. |
-| `/health` | GET | `200 OK` | Service liveness and readiness probe. |
+Directly aligned with the Kasparro AI Platform Engineering specification:
 
-**Inbound Rate Limiting Headers**:
-- All endpoints inject RFC headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`.
-- Requests exceeding quota receive HTTP `429 Too Many Requests` with `Retry-After: <seconds>`.
-
----
-
-## Scoring Model (100 Points Rubric)
-
-Aligned directly with the Kasparro Full Stack Engineer (AI Platform) requirements:
-
-| Category | Weight | Signals Rewarded |
+| Dimension | Max Points | Evaluation Signals |
 |---|---|---|
-| **AI / Agentic / RAG Project Depth** | **40 pts** | Real multi-agent orchestration, LangGraph, tool calling, vector search/embeddings, retrieval state, evaluation pipelines, semantic business logic. |
-| **Python & Backend Engineering** | **30 pts** | Python fundamentals, async programming, FastAPI, PostgreSQL, Redis, clean modular architecture. |
-| **Cloud / Deploy / Full Stack** | **15 pts** | GCP Cloud Run, Docker containerization, CI/CD, React/Next.js supporting signals. |
-| **GitHub Activity** | **10 pts** | Recent public engineering pushes, maintained public repos, Python/AI relevance. |
-| **Engineering Depth Signals** | **5 pts** | Concurrency safety, caching, queues, failure handling, testing habits, observability. |
+| **AI / Agentic / RAG Project Depth** | **40 pts** | Multi-agent coordination (LangGraph/CrewAI), tool calling, RAG pipelines, vector search, embeddings, state machines. |
+| **Python & Backend Engineering** | **30 pts** | Python fundamentals, async programming, FastAPI, PostgreSQL, Redis, modular architecture. |
+| **Cloud / Deploy / Full Stack** | **15 pts** | Docker containerization, GCP Cloud Run, CI/CD pipelines, React/Next.js supporting signals. |
+| **GitHub Activity & Signals** | **10 pts** | Recent public commit frequency (0–5 pts) + relevant maintained repositories (0–5 pts). |
+| **Engineering Depth Signals** | **5 pts** | Concurrency safety, custom caching, queues, failure handling, testing habits, observability. |
 
-**Penalties (5–15 pts, capped)**:
-- Deduct 10 pts for thin API wrappers (`openai.chat.completions.create` without retrieval, state, or tools).
-- Deduct 5 pts for tutorial-style projects without ownership evidence.
-- Deduct 5 pts for AI keywords appearing only in skills lists without project implementation.
-
----
-
-## Design Decisions
-
-1. **Deterministic Hard Eligibility Gate**: Rule-based regex/lexicon parsing ensures predictable gating. Candidates with only JavaScript/React are rejected; candidates with Python + meaningful AI/agentic projects pass. Copilot/Cursor mentions under "tools" are explicitly stripped so AI-assisted coding is not confused with AI engineering.
-2. **Lock-Striped LRU Cache (`ShardedLRUCache`)**: Hand-crafted doubly linked list ($O(1)$) with 16 independent shards. A strict lock-ordering rule ensures threads hold at most one shard lock at any instant and never hold locks during network calls or external loaders.
-3. **Cache Stampede Suppression (`SingleFlight`)**: When multiple threads miss concurrently on the same GitHub username or LLM prompt, only the first caller invokes the loader. All other threads park on a shared `Future`/`Event`, preventing thundering-herd API quota exhaustion.
-4. **Watermark Eviction with Hysteresis (`MemoryGuard`)**: An OS `kswapd`-inspired background daemon monitors process RSS and cache bytes. Crossing the high watermark (80%) triggers tail evictions down to the low watermark (60%), preventing eviction thrashing.
-5. **Adaptive Outbound Rate Limiting**: Inspects upstream GitHub `x-ratelimit-*` and `Retry-After` headers. Automatically pauses token distribution until reset timestamps and applies exponential backoff with full jitter on 429/503 responses.
+#### Deductions & Penalties:
+- **-10 pts**: Thin API wrappers (calling `openai.ChatCompletion.create` without retrieval, state, or product logic).
+- **-5 pts**: Generic tutorial projects lacking evidence of personal ownership.
+- **-5 pts**: AI buzzwords appearing only in skills lists without implementation evidence.
 
 ---
 
-## Hardest Bug Tracked Down (Kasparro Application Submission)
+## 🔒 Security & Secrets Policy
 
-> **Debugging Scanner-Session Expiry Race Condition in Qr-Connect Under Concurrent Mobile Traffic**
->
-> **The Incident**: In production, high-traffic QR scanning stations periodically experienced duplicate ticket validation failures and ghost session check-ins when multiple handheld scanners scanned the same access pass within milliseconds of its 5-minute session expiration window.
->
-> **How It Was Found**: Standard application telemetry showed 200 OK responses on both client devices, yet downstream attendance audit logs reported double-entry reconciliation errors. By analyzing database connection traces and timestamp deltas across concurrent API workers, I identified a classic Time-of-Check to Time-of-Use (TOCTOU) race condition: two distinct application worker nodes checked session validity in Python memory concurrently before either transaction committed its invalidation status back to the database.
->
-> **The Fix**: Rather than attempting distributed in-memory locking across stateless API nodes, I pushed the atomicity check into the database engine. I consolidated session verification and transition into a single SQL transaction using PostgreSQL row-level locking (`SELECT ... FOR UPDATE NOWAIT`) combined with conditional updates (`UPDATE sessions SET status = 'claimed' WHERE id = :id AND expires_at > NOW() AND status = 'active'`). This guaranteed serialized, hardware-atomic state transitions, completely eliminating duplicate scans and sub-millisecond ghost check-ins.
+- **No Secrets Committed**: Following production security best practices, no personal API keys or GitHub tokens are hardcoded or committed to git.
+- **Zero-Secret Offline Baseline**: By default, the system runs with `LLM_PROVIDER=none`. The entire ingestion, hard filtering, TF-IDF semantic scoring, and ranking pipeline runs 100% locally in pure Python without requiring any external API keys or paid services.
+- **Pre-Generated Results**: The pre-computed screening output for all 50 resumes is bundled in [`results.json`](results.json).
+- **Optional LLM Scoring**: If you wish to test with an LLM, copy `.env.example` to `.env` and set `LLM_PROVIDER=openai` (or `anthropic`) with your `LLM_API_KEY`.
 
 ---
 
-## If I Had More Time
+## 📖 Complete Documentation Index
 
-1. **Window-TinyLFU (W-TinyLFU) Admission Filter**: Upgrade Segmented LRU with a Count-Min Sketch frequency filter to protect the cache against zipfian distribution scans.
-2. **Distributed Redis Clustering**: Replace the in-process `KeyedLimiter` and `ShardedLRUCache` with Redis `CL.THROTTLE` and Redis Cluster for horizontal scaling across multi-pod Kubernetes deployments.
-3. **OpenTelemetry Distributed Tracing**: Add end-to-end trace propagation linking inbound HTTP requests through the job queue to background process workers.
+- 📋 [**SUBMISSION.md**](SUBMISSION.md) — Comprehensive assessment submission, design rationale, and rubric alignment.
+- 📘 [**USAGE_GUIDE.md**](USAGE_GUIDE.md) — Step-by-step instructions for candidate and reviewer.
+- 🛡️ [**docs/DEFENSE.md**](docs/DEFENSE.md) — Architectural interview defense guide (7 core design trade-offs).
+- 📐 [**docs/design.md**](docs/design.md) — Low-level engineering design specification and memory models.
+- 📑 [**docs/audit.md**](docs/audit.md) — Concurrency and hardening triage log.
+
+---
+
+## 👤 Candidate Information
+
+- **Candidate**: Sujal V S
+- **Role**: SDE Intern / AI Platform Engineering
+- **Assessment**: AI Resume Screening & Ranking Platform
+- **GitHub Repository**: [https://github.com/SVSS13/ResumeScreening](https://github.com/SVSS13/ResumeScreening)
