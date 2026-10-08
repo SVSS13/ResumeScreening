@@ -1,0 +1,16 @@
+.git
+.github
+.pytest_cache
+.cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.venv
+venv
+env
+tests/
+output/
+resumes/
+*.zip
+*.md
