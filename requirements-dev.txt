@@ -2,13 +2,13 @@
 -r requirements.txt
 
 # Automated Security & Vulnerability Auditing
-pip-audit>=2.7.0
-bandit>=1.7.8
+pip-audit>=2.10.1
+bandit>=1.9.4
 
 # Code Quality, Formatting & Type Checking
-ruff>=0.4.0
+ruff>=0.16.10
 
 # Advanced Testing & Benchmarking Suite
-pytest-cov>=5.0.0
-pytest-benchmark>=4.0.0
-hypothesis>=6.100.0
+pytest-cov>=7.1.0
+pytest-benchmark>=5.3.0
+hypothesis>=6.168.4
