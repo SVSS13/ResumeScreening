@@ -46,36 +46,36 @@
 ```mermaid
 flowchart TD
     subgraph Inbound["1. Inbound Ingestion & Security"]
-        Client[External Client / HR User] -->|POST /screen| Gateway[FastAPI Layer]
-        Gateway -->|Verify Quota| RL[Token Bucket Limiter<br/>RFC 6585 Headers]
-        RL -->|202 Accepted + UUID| Queue[JobService Bounded Queue<br/>maxsize=50 | 503 Backpressure]
+        Client["External Client / HR User"] -->|POST /screen| Gateway["FastAPI Gateway Layer"]
+        Gateway -->|Verify Quota| RL["Token Bucket Limiter<br/>RFC 6585 Headers"]
+        RL -->|202 Accepted + UUID| Queue["JobService Bounded Queue<br/>maxsize=50 (503 Backpressure)"]
     end
 
     subgraph Workers["2. GIL-Aware Worker Execution"]
-        Queue --> Dispatcher[Worker Runtime]
-        Dispatcher -->|CPU Bound| PPool[ProcessPool: PDF Miner & TF-IDF Extraction]
-        Dispatcher -->|I/O Bound| AsyncIO[asyncio: Public GitHub HTTPX + LLM API]
-        Dispatcher -->|Disk I/O| TPool[ThreadPool: File Ingestion & Report Snapshots]
+        Queue --> Dispatcher["Worker Runtime Dispatcher"]
+        Dispatcher -->|CPU Bound| PPool["ProcessPool: PDF Miner & TF-IDF"]
+        Dispatcher -->|I/O Bound| AsyncIO["asyncio: Public GitHub HTTPX + LLM"]
+        Dispatcher -->|Disk I/O| TPool["ThreadPool: Disk I/O & Snapshots"]
     end
 
     subgraph Caches["3. Zero-Allocation Concurrent Caching"]
-        PPool --> ParseCache[Sharded Parse Cache<br/>sha256 text hash]
-        AsyncIO --> GHCache[Sharded GitHub Cache<br/>24h TTL]
-        AsyncIO --> LLMCache[Sharded LLM Cache<br/>sha256 prompt hash]
-        ParseCache & GHCache & LLMCache --> SF[SingleFlight Coordinator<br/>Stampede Suppression]
+        PPool --> ParseCache["Sharded Parse Cache<br/>sha256 text hash"]
+        AsyncIO --> GHCache["Sharded GitHub Cache<br/>24h TTL"]
+        AsyncIO --> LLMCache["Sharded LLM Cache<br/>sha256 prompt hash"]
+        ParseCache & GHCache & LLMCache --> SF["SingleFlight Coordinator<br/>Stampede Suppression"]
     end
 
     subgraph Memory["4. Platform Telemetry & Memory Safety"]
-        Daemon[MemoryGuard Daemon] -->|Monitor /proc RSS| Watermark{RSS > 80% High?}
-        Watermark -- Yes --> Evict[Hysteresis Eviction<br/>Tail Pruning to 60%]
-        Watermark -- No --> Healthy[Idle Sleep]
+        Daemon["MemoryGuard Daemon"] -->|Monitor /proc RSS| Watermark{"RSS > 80% High?"}
+        Watermark -->|Yes| Evict["Hysteresis Eviction<br/>Tail Pruning to 60%"]
+        Watermark -->|No| Healthy["Idle Sleep"]
     end
 
     subgraph Output["5. Ranking & Shortlist"]
-        Workers --> Gate{Hard Gate: Python + AI?}
-        Gate -- No --> Rejections[17 Disqualified<br/>Explicit Audit Log]
-        Gate -- Yes --> Scorer[100-Point Scoring Model<br/>TF-IDF + Lexicon + GitHub]
-        Scorer --> Leaderboard[Ranked Leaderboard<br/>results.json & results.csv]
+        Workers --> Gate{"Hard Gate: Python + AI?"}
+        Gate -->|No| Rejections["17 Disqualified<br/>Explicit Audit Log"]
+        Gate -->|Yes| Scorer["100-Point Scoring Model<br/>TF-IDF + Lexicon + GitHub"]
+        Scorer --> Leaderboard["Ranked Leaderboard<br/>results.json & results.csv"]
     end
 ```
 
