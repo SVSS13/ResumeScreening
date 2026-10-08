@@ -122,7 +122,6 @@ class MemoryGuard:
         if not caches:
             return 0
 
-        # Query total bytes across registered caches
         total_cache_bytes = 0
         for c in caches:
             stats = c.stats()
@@ -139,7 +138,6 @@ class MemoryGuard:
         target_total = self._low_bytes
         evicted_this_cycle = 0
 
-        # Distribute target proportionally or equally across caches
         target_per_cache = max(0, target_total // len(caches))
         for c in caches:
             evicted = c.evict_to(target_per_cache)

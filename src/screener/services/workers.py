@@ -90,8 +90,7 @@ class WorkerRuntime:
 
         loop = asyncio.get_running_loop()
 
-        # ---- 1. Ingest & Parse in ProcessPoolExecutor (CPU-bound) ----
-        # Dispatch file parsing across process pool
+        # Parse resumes concurrently in ProcessPoolExecutor (CPU-bound)
         parse_futures = [
             loop.run_in_executor(self._process_pool, _cpu_load_and_parse, p)
             for p in paths
@@ -114,7 +113,7 @@ class WorkerRuntime:
                 continue
             parsed_all.append(parsed)
 
-        # ---- 2. Hard Eligibility & Feature Scan (CPU-bound) ----
+        # Hard eligibility filtering and lexicon scanning
         analysed: list[tuple[ParsedResume, dict, Eligibility]] = []
         for p in parsed_all:
             try:
@@ -123,7 +122,7 @@ class WorkerRuntime:
             except Exception as e:
                 failed.append(FailedFile(file=p.file, reason=f"analysis error: {type(e).__name__}: {e}"))
 
-        # ---- 3. TF-IDF Matrix Computation ----
+        # TF-IDF semantic matrix computation
         corpus = [b.text for p, _, _ in analysed for b in p.blocks] or [p.text for p, _, _ in analysed] or ["empty"]
         sem = SemanticScorer(corpus, settings)
 
@@ -141,7 +140,7 @@ class WorkerRuntime:
             except Exception as e:
                 failed.append(FailedFile(file=p.file, reason=f"scoring error: {type(e).__name__}: {e}"))
 
-        # ---- 4. GitHub + LLM Enrichment (I/O-bound via asyncio + httpx) ----
+        # Enrichment: async I/O with GitHub and optional LLM judge
         enrich_results: list[tuple[GitHubResult, LLMJudgement | None]] = []
         llm_on = False
 
@@ -175,7 +174,7 @@ class WorkerRuntime:
                     # Offload cache persistence to thread pool (disk I/O)
                     await loop.run_in_executor(self._thread_pool, gh.save_cache)
 
-        # ---- 5. Blending & Final Ranking ----
+        # Blending & final ranking
         ranked: list[CandidateResult] = []
         gh_ok = gh_fail = llm_ok = llm_fail = 0
         for (p, det, el), (gh, judgement) in zip(eligible, enrich_results):

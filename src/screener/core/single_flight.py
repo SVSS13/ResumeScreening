@@ -71,11 +71,9 @@ class AsyncSingleFlight(Generic[V]):
     async def execute(self, key: str, loader: Callable[[], Awaitable[V]]) -> V:
         async with self._lock:
             if key in self._calls:
-                # Concurrent request: await existing in-flight future
                 fut = self._calls[key]
                 return await fut
 
-            # First caller: create new future
             loop = asyncio.get_running_loop()
             fut = loop.create_future()
             self._calls[key] = fut

@@ -58,7 +58,6 @@ class TokenBucket:
     def try_acquire(self, cost: float = 1.0) -> RateDecision:
         now = self._clock()
         with self._lock:
-            # Lazy refill
             delta = max(0.0, now - self._last_refill)
             self._tokens = min(self.capacity, self._tokens + delta * self.refill_per_s)
             self._last_refill = now
@@ -106,7 +105,6 @@ class SlidingWindowCounter:
     def try_acquire(self, cost: int = 1) -> RateDecision:
         now = self._clock()
         with self._lock:
-            # Check window progression
             elapsed = now - self._cur_window_start
             if elapsed >= 2 * self.window_s:
                 self._cur_window_start = now
@@ -228,10 +226,8 @@ class OutboundLimiter:
         self._lock = asyncio.Lock()
 
     async def acquire(self) -> None:
-        # 1. Acquire concurrency slot
         await self._sem.acquire()
 
-        # 2. Check paused state (from upstream rate limit reset)
         while True:
             now = self._clock()
             async with self._lock:
@@ -240,7 +236,6 @@ class OutboundLimiter:
                 break
             await asyncio.sleep(min(1.0, wait_needed))
 
-        # 3. Acquire token from bucket
         decision = self._bucket.try_acquire(1.0)
         if not decision.allowed:
             await asyncio.sleep(decision.retry_after_s)
@@ -251,12 +246,8 @@ class OutboundLimiter:
     async def observe(self, headers: Mapping[str, str], status_code: int) -> None:
         """Inspect upstream response headers to adaptively throttle future calls."""
         now = self._clock()
-
-        # Check GitHub x-ratelimit headers
         remaining = headers.get("x-ratelimit-remaining")
         reset_ts_raw = headers.get("x-ratelimit-reset")
-
-        # Check standard Retry-After header
         retry_after_raw = headers.get("retry-after")
 
         if retry_after_raw is not None:

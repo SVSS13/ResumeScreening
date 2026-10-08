@@ -128,14 +128,12 @@ class LRUCache(Generic[K, V]):
         # Min-heap of (expires_at, key, version) for active TTL sweeps
         self._ttl_heap: list[tuple[float, K, int]] = []
 
-        # Telemetry counters
         self._total_bytes: int = 0
         self._hits: int = 0
         self._misses: int = 0
         self._evictions: int = 0
         self._expirations: int = 0
 
-    # ---- DLL pointer manipulation (caller must hold _lock) ----
     def _insert_after_head(self, node: _Node[K, V]) -> None:
         node.prev = self._head
         node.next = self._head.next
@@ -162,7 +160,6 @@ class LRUCache(Generic[K, V]):
         self._map.pop(node.key, None)
         self._total_bytes -= node.size_bytes
 
-    # ---- Public API ----
     def get(self, key: K) -> V | None:
         with self._lock:
             node = self._map.get(key)
@@ -172,7 +169,6 @@ class LRUCache(Generic[K, V]):
 
             now = self._clock()
             if node.expires_at is not None and now >= node.expires_at:
-                # Lazy TTL expiry
                 self._remove_node_internal(node)
                 self._expirations += 1
                 self._misses += 1
@@ -191,7 +187,6 @@ class LRUCache(Generic[K, V]):
         with self._lock:
             existing = self._map.get(key)
             if existing is not None:
-                # Update existing entry
                 self._total_bytes -= existing.size_bytes
                 existing.val = value
                 existing.size_bytes = val_size
@@ -217,7 +212,6 @@ class LRUCache(Generic[K, V]):
                 if expires_at is not None:
                     heapq.heappush(self._ttl_heap, (expires_at, key, 1))
 
-            # Evict from tail while exceeding item limit or byte limit
             while (len(self._map) > self._max_items or self._total_bytes > self._max_bytes) and self._tail.prev is not self._head:
                 lru_node = self._tail.prev
                 assert lru_node is not None and lru_node is not self._head
@@ -254,11 +248,10 @@ class LRUCache(Generic[K, V]):
                 expires_at, key, version = heapq.heappop(self._ttl_heap)
                 node = self._map.get(key)
                 if node is not None and node.version == version:
-                    # Valid matching version that has expired
                     self._remove_node_internal(node)
                     self._expirations += 1
                     expired_count += 1
-                # Otherwise, node was updated with a newer version or deleted -> stale heap record skipped in O(1)
+                # Stale heap records (updated with a newer version or deleted) are safely skipped in O(1)
         return expired_count
 
     def clear(self) -> None:
@@ -437,12 +430,10 @@ class SegmentedLRUCache(Generic[K, V]):
 
     def get(self, key: K) -> V | None:
         with self._lock:
-            # Check protected first
             val = self._protected.get(key)
             if val is not None:
                 return val
 
-            # Check probationary
             val = self._probation.get(key)
             if val is not None:
                 # Promotion on second hit: remove from probation, promote to protected
@@ -481,7 +472,6 @@ class SegmentedLRUCache(Generic[K, V]):
 
     def evict_to(self, target_bytes: int) -> int:
         with self._lock:
-            # Evict from probation first, then protected
             prob_target = int(target_bytes * 0.2)
             prot_target = max(0, target_bytes - prob_target)
             evicted = self._probation.evict_to(prob_target)

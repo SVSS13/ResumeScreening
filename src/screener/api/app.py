@@ -29,7 +29,6 @@ _last_result: dict = {}
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    # ---- Startup ----
     worker_runtime = WorkerRuntime()
     job_service = JobService(worker_runtime=worker_runtime, queue_max_size=50)
     job_service.start_consumer()
@@ -45,7 +44,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     yield
 
-    # ---- Graceful Shutdown ----
     await job_service.drain(timeout_s=15.0)
     memory_guard.stop()
     worker_runtime.shutdown(wait=True)

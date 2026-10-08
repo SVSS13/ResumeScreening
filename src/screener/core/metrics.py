@@ -19,7 +19,6 @@ class MetricsCollector:
         self._inbound_rate_limited = itertools.count()
         self._outbound_throttled = itertools.count()
 
-        # Atomic counters
         self._rate_limited_total: int = 0
         self._throttled_total: int = 0
 

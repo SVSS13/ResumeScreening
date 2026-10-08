@@ -63,7 +63,6 @@ class ShardedLRUCache(Generic[K, V]):
     def _shard_index(self, key: K) -> int:
         return abs(hash(key)) % self._num_shards
 
-    # ---- Public API ----
     def get(self, key: K) -> V | None:
         idx = self._shard_index(key)
         with self._locks[idx]:
@@ -82,19 +81,16 @@ class ShardedLRUCache(Generic[K, V]):
     def get_or_load(self, key: K, loader: Callable[[], V], ttl_s: float | None = None) -> V:
         """Single-flight cache lookup: returns cached value or loads it exactly once among concurrent callers.
 
-        CRITICAL CONCURRENCY RULE: No lock is held while invoking loader()!
+        CRITICAL CONCURRENCY RULE: No shard lock is held while invoking loader()!
         """
-        # 1. Fast path: check cache under shard lock
         idx = self._shard_index(key)
         with self._locks[idx]:
             val = self._shards[idx].get(key)
             if val is not None:
                 return val
 
-        # 2. Slow path: coordinate concurrent callers using SingleFlight (outside shard lock)
         def _load_and_cache() -> V:
             loaded_val = loader()
-            # Store in cache under shard lock
             with self._locks[idx]:
                 self._shards[idx].put(key, loaded_val, ttl_s=ttl_s)
             return loaded_val
@@ -159,7 +155,6 @@ class ShardedLRUCache(Generic[K, V]):
         with self._locks[idx]:
             return key in self._shards[idx]
 
-    # ---- Background Sweeper Lifecycle ----
     def start_sweeper(self, interval_s: float = 10.0) -> None:
         if self._sweeper_thread is not None and self._sweeper_thread.is_alive():
             return

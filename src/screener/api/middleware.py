@@ -13,16 +13,19 @@ from ..core.rate_limiter import KeyedLimiter, RateDecision
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
-    """Enforces identity-based token bucket rate limiting on incoming HTTP requests."""
+    """Enforces identity-based token bucket rate limiting on incoming HTTP requests.
+
+    Defaults:
+    - Write routes (/screen): 6 req/min, burst 2
+    - Read routes: 120 req/min, burst 20
+    """
 
     def __init__(
         self,
         app: Callable,
         metrics: MetricsCollector | None = None,
-        # Write route limit: 6 req/min, burst 2
         write_burst: float = 2.0,
         write_refill_per_s: float = 0.1,
-        # Read route limit: 120 req/min, burst 20
         read_burst: float = 20.0,
         read_refill_per_s: float = 2.0,
     ) -> None:
@@ -32,7 +35,6 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         self._read_limiter = KeyedLimiter(capacity=read_burst, refill_per_s=read_refill_per_s, max_keys=10_000)
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
-        # Extract identity: X-API-Key header or client host
         api_key = request.headers.get("X-API-Key")
         client_ip = request.client.host if request.client else "unknown"
         identity = f"key:{api_key}" if api_key else f"ip:{client_ip}"
@@ -40,7 +42,6 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         path = request.url.path
         method = request.method.upper()
 
-        # Classify route
         if method == "POST" and path.startswith("/screen"):
             decision = self._write_limiter.check(identity, cost=1.0)
         else:
