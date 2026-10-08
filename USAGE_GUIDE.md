@@ -93,6 +93,24 @@ pytest submission/tests/
 
 ---
 
+### 5. Method D: Dependency Security & SAST Auditing
+
+```bash
+# 1. Install security tooling
+pip install -r requirements-dev.txt
+
+# 2. Audit dependencies against known CVEs (pip-audit)
+pip-audit
+
+# 3. Static Application Security Testing (Bandit SAST)
+bandit -r src/
+
+# 4. Linting & quality check (Ruff)
+ruff check .
+```
+
+---
+
 ## Part 2: Dual-Deliverable Repository Layout
 
 To satisfy both a lightweight take-home assessment and an advanced platform engineering evaluation:

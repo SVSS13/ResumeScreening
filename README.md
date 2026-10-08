@@ -8,6 +8,7 @@
 [![Pydantic v2](https://img.shields.io/badge/Pydantic-v2-E92063?style=for-the-badge&logo=pydantic&logoColor=white)](https://pydantic.dev)
 [![Tests Passing](https://img.shields.io/badge/Tests-85%2F85%20Passed%20(100%25)-brightgreen?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
 [![Coverage](https://img.shields.io/badge/Coverage-91%25-success?style=for-the-badge&logo=codecov&logoColor=white)](tests/)
+[![Security Audit](https://img.shields.io/badge/Security-pip--audit%20%26%20Bandit%20Clean-success?style=for-the-badge&logo=security&logoColor=white)](.github/workflows/ci.yml)
 [![Dependencies](https://img.shields.io/badge/Infrastructure-Zero%20External%20DBs-orange?style=for-the-badge)](SUBMISSION.md)
 
 <p align="center">
@@ -154,6 +155,21 @@ pytest -v
 
 # Run lean submission tests only
 pytest submission/tests/
+```
+
+### 5. Method D: Security & Vulnerability Auditing
+```bash
+# 1. Install development & security auditing tools
+pip install -r requirements-dev.txt
+
+# 2. Dependency vulnerability audit (CVE scanning via pip-audit)
+pip-audit
+
+# 3. Static Application Security Testing (Bandit SAST)
+bandit -r src/
+
+# 4. Code quality & formatting check (Ruff)
+ruff check .
 ```
 
 ---

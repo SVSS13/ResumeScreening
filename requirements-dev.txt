@@ -1,0 +1,14 @@
+# Quality, Security & Development Dependencies
+-r requirements.txt
+
+# Automated Security & Vulnerability Auditing
+pip-audit>=2.7.0
+bandit>=1.7.8
+
+# Code Quality, Formatting & Type Checking
+ruff>=0.4.0
+
+# Advanced Testing & Benchmarking Suite
+pytest-cov>=5.0.0
+pytest-benchmark>=4.0.0
+hypothesis>=6.100.0
