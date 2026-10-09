@@ -214,7 +214,7 @@ Directly aligned with the Kasparro AI Platform Engineering specification:
 
 ## 👤 Candidate Information
 
-- **Candidate**: Sujal V S
+- **Candidate**: S V S Sujal
 - **Role**: SDE Intern / AI Platform Engineering
 - **Assessment**: AI Resume Screening & Ranking Platform
 - **GitHub Repository**: [https://github.com/SVSS13/ResumeScreening](https://github.com/SVSS13/ResumeScreening)
